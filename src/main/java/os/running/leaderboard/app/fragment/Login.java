@@ -1,5 +1,6 @@
 package os.running.leaderboard.app.fragment;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import os.running.leaderboard.app.R;
+import os.running.leaderboard.app.base.Runtastic;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,7 +42,7 @@ public class Login extends Fragment
                 @Override
                 public void onClick(View view) {
                     if (checkLogin()) {
-                        createLogin();
+                        new createLogin().execute();
                     }
                 }
             });
@@ -61,7 +63,7 @@ public class Login extends Fragment
             }
 
             text = (EditText)this.mainView.findViewById(R.id.password);
-            if (text == null || !isEmailValid(text.getText().toString())) {
+            if (text == null || text.getText().toString().length() <= 1) {
                 valid = false;
                 ((TextInputLayout)this.mainView.findViewById(R.id.password_layout)).setErrorEnabled(true);
             }
@@ -73,14 +75,42 @@ public class Login extends Fragment
         return valid;
     }
     
-    private void createLogin()
+    private class createLogin extends AsyncTask<String, String, String>
     {
-        try {
-            String email = ((EditText)this.mainView.findViewById(R.id.email)).getText().toString();
-            String password = ((EditText)this.mainView.findViewById(R.id.password)).getText().toString();
+        Boolean loginState = false;
+        
+        @Override
+        protected String doInBackground(String... uri) {
+            Log.d("app", "start login request");
+            try {
+                String email = ((EditText)mainView.findViewById(R.id.email)).getText().toString();
+                String password = ((EditText)mainView.findViewById(R.id.password)).getText().toString();
+
+                Runtastic runtastic = new Runtastic();
+
+                runtastic.seteMail(email);
+                runtastic.setPassword(password);
+
+                loginState = runtastic.login();
+
+            } catch (Exception e) {
+                Log.e("app", "Login.createLogin", e.fillInStackTrace());
+            }
             
-        } catch (Exception e) {
-            Log.e("app", "Login.createLogin", e.fillInStackTrace());
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (!loginState) {
+                // TODO add login error message
+                Log.d("app", "login failed");
+            }
+            
+            // TODO remove login screen
+            Log.d("app", "end login");
         }
     }
     

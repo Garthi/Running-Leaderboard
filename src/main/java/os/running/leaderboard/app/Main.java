@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import os.running.leaderboard.app.fragment.Friends;
 import os.running.leaderboard.app.fragment.Leaderboard;
+import os.running.leaderboard.app.fragment.Login;
 
 public class Main extends AppCompatActivity
 {
@@ -40,7 +41,7 @@ public class Main extends AppCompatActivity
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         
         // Initializing default fragment
-        Leaderboard fragment = Leaderboard.newInstance();
+        Login fragment = new Login();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.content, fragment);
         fragmentTransaction.commit();
