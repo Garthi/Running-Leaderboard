@@ -2,6 +2,9 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:colorPrimary">@color/app_blue</item>
         <item name="android:colorPrimaryDark">@color/app_blue_dark</item>
+        <item name="android:colorAccent">@color/app_blue</item>
+        <item name="android:colorButtonNormal">@color/app_blue</item>
+        <item name="android:colorControlActivated">@color/app_blue</item>
         <item name="android:statusBarColor">@color/app_blue_dark</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="windowActionBar">false</item>

@@ -11,6 +11,11 @@
     <string name="default_login">Gast</string>
     <string name="default_login_mail"> </string>
     
+    <string name="button_text_login">Einloggen</string>
+    
+    <string name="hint_email">E-Mail</string>
+    <string name="hint_password">Passwort</string>
+    
     <string name="navigation_drawer_open">Open navigation</string>
     <string name="navigation_drawer_close">Close navigation</string>
 </resources>

@@ -2,8 +2,10 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/app_blue</item>
         <item name="colorPrimaryDark">@color/app_blue_dark</item>
+        <item name="colorAccent">@color/app_blue_light</item>
+        <item name="colorButtonNormal">@color/app_blue_light</item>
+        <item name="colorControlActivated">@color/app_blue_light</item>
         <item name="windowActionBar">false</item>
         <item name="windowActionModeOverlay">true</item>
     </style>
-    
 </resources>
