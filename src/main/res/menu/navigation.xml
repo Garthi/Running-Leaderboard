@@ -6,9 +6,29 @@
             android:checked="true"
             android:icon="@drawable/ic_action_leaderboard"
             android:title="@string/menu_leader_board"/>
+        <item
+            android:id="@+id/menu_friends"
+            android:checked="false"
+            android:icon="@drawable/ic_action_friends"
+            android:title="@string/menu_friends"/>
     </group>
-    <group android:id="@+id/group_settings"
-        android:checkableBehavior="single">
+    <item android:title="@string/menu_runtastic">
+        <menu>
+            <item
+                android:id="@+id/menu_runtastic_apps"
+                android:checked="false"
+                android:icon="@drawable/ic_action_runtastic"
+                android:title="@string/menu_runtastic_apps"/>
+            <item
+                android:id="@+id/menu_runtastic_url"
+                android:checked="false"
+                android:icon="@drawable/ic_action_runtastic"
+                android:title="@string/menu_runtastic_url"/>
+        </menu>
+    </item>
+    <group
+        android:id="@+id/group_settings"
+        android:checkableBehavior="none">
         <item
             android:id="@+id/menu_settings"
             android:checked="false"

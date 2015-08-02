@@ -2,8 +2,15 @@
     <string name="app_name">Running-Leaderboard</string>
 
     <string name="menu_leader_board">Rangliste</string>
+    <string name="menu_friends">Freunde</string>
     <string name="menu_settings">Einstellungen</string>
+    <string name="menu_runtastic">Runtastic</string>
+    <string name="menu_runtastic_apps">Runtastic Apps</string>
+    <string name="menu_runtastic_url">runtastic.com</string>
 
+    <string name="default_login">Gast</string>
+    <string name="default_login_mail"> </string>
+    
     <string name="navigation_drawer_open">Open navigation</string>
     <string name="navigation_drawer_close">Close navigation</string>
 </resources>

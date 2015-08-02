@@ -18,11 +18,14 @@
             android:layout_height="match_parent"/>
     </LinearLayout>
     <android.support.design.widget.NavigationView
-        android:fitsSystemWindows="true"
         android:id="@+id/navigation"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="left"
+        android:fitsSystemWindows="true"
         app:menu="@menu/navigation"
+        app:insetForeground="#4000"
+        app:itemIconTint="@color/navigation_color_set"
+        app:itemTextColor="@color/navigation_color_set"
         app:headerLayout="@layout/navigation_header"/>
 </android.support.v4.widget.DrawerLayout>

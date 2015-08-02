@@ -1,8 +1,8 @@
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:colorPrimary">@color/PrimaryColor</item>
-        <item name="android:colorPrimaryDark">@color/PrimaryDarkColor</item>
-        <item name="android:statusBarColor">@color/PrimaryDarkColor</item>
+        <item name="android:colorPrimary">@color/app_blue</item>
+        <item name="android:colorPrimaryDark">@color/app_blue_dark</item>
+        <item name="android:statusBarColor">@color/app_blue_dark</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowActionModeOverlay">true</item>

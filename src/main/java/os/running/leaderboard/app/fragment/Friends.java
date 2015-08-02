@@ -10,31 +10,31 @@ import os.running.leaderboard.app.R;
 /**
  * @author Martin "Garth" Zander <garth@new-crusader.de>
  */
-public class Leaderboard extends Fragment
+public class Friends extends Fragment
 {
     /**
      * this fragment representing
      */
-    private static Leaderboard self = null;
+    private static Friends self = null;
 
     /**
      * Returns a new instance of this fragment
      */
-    public static Leaderboard newInstance()
+    public static Friends newInstance()
     {
         if (self == null) {
-            self = new Leaderboard();
+            self = new Friends();
         }
         
         return self;
     }
 
-    public Leaderboard()
+    public Friends()
     {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        return inflater.inflate(R.layout.leaderboard, container, false);
+        return inflater.inflate(R.layout.friends, container, false);
     }
 }
