@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author Martin "Garth" Zander <garth@new-crusader.de>
  */
-public class Runtastic
+public class Runtastic88
 {
     private Context context;
     
@@ -24,7 +24,7 @@ public class Runtastic
 
     final private String loginUrl = "https://www.runtastic.com/en/d/users/sign_in.json";
     
-    public Runtastic(Context context)
+    public Runtastic88(Context context)
     {
         this.context = context;
     }
@@ -87,7 +87,7 @@ public class Runtastic
             return true;
 
         } catch (JSONException e) {
-            Log.e("app", "Runtastic.login", e.fillInStackTrace());
+            Log.e("app", "Runtastic88.login", e.fillInStackTrace());
         }
 
         logout(false);
