@@ -9,7 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.NavigationView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
+import com.squareup.picasso.Picasso;
+import de.hdodenhof.circleimageview.CircleImageView;
+import os.running.leaderboard.app.base.Database;
+import os.running.leaderboard.app.base.Runtastic;
 import os.running.leaderboard.app.fragment.Friends;
 import os.running.leaderboard.app.fragment.Leaderboard;
 import os.running.leaderboard.app.fragment.Login;
@@ -41,10 +46,30 @@ public class Main extends AppCompatActivity
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         
         // Initializing default fragment
-        Login fragment = new Login();
+        Leaderboard fragment = new Leaderboard();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.content, fragment);
         fragmentTransaction.commit();
+        
+        // update navigation header
+        Runtastic runtastic = new Runtastic(this);
+        if (runtastic.hasLogin()) {
+            Database DB = Database.getInstance(this);
+
+            String accountData = DB.getAccountData("firstName");
+            if (accountData != null) {
+                ((TextView)this.findViewById(R.id.username)).setText(accountData);
+            }
+
+            accountData = DB.getAccountData("avatarUrl");
+            if (accountData != null) {
+                CircleImageView image = (CircleImageView)this.findViewById(R.id.profile_image);
+                Picasso.with(this).load(accountData).placeholder(R.drawable.default_profile).into(image);
+            }
+        } else {
+            ((TextView)this.findViewById(R.id.username)).setText(R.string.default_login);
+            ((CircleImageView)this.findViewById(R.id.profile_image)).setImageResource(R.drawable.default_profile);
+        }
     }
     
     private class NavigationItemListener implements NavigationView.OnNavigationItemSelectedListener

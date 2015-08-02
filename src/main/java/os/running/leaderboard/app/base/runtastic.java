@@ -1,5 +1,6 @@
 package os.running.leaderboard.app.base;
 
+import android.content.Context;
 import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,10 +17,17 @@ import java.util.List;
  */
 public class Runtastic
 {
+    private Context context;
+    
     private String eMail = null;
     private String password = null;
 
     final private String loginUrl = "https://www.runtastic.com/en/d/users/sign_in.json";
+    
+    public Runtastic(Context context)
+    {
+        this.context = context;
+    }
 
     public Boolean login()
     {
@@ -43,6 +51,7 @@ public class Runtastic
         api.setParameters(parameters);
 
         if (!api.connect()) {
+            logout(false);
             return false;
         }
 
@@ -54,20 +63,26 @@ public class Runtastic
             }
 
             if (!response.getBoolean("success")) {
+                logout(false);
                 return false;
             }
 
             String token = getToken(response);
             String userName = getUsername(response);
-            String userId = getUserId(response);
+            String userId = response.getJSONObject("current_user").getString("id");
             String avatar = getAvatar(response);
+            String firstName = response.getJSONObject("current_user").getString("first_name");
+            String lastName = response.getJSONObject("current_user").getString("last_name");
 
-            Log.d("app", "token: " + token);
-            Log.d("app", "username: " + userName);
-            Log.d("app", "userId: " + userId);
-            Log.d("app", "avatar: " + avatar);
+            // save data to DB
+            Database DB = Database.getInstance(context);
             
-            // TODO: save data to DB
+            DB.addAccounData("userName", userName);
+            DB.addAccounData("userId", userId);
+            DB.addAccounData("token", token);
+            DB.addAccounData("avatarUrl", avatar);
+            DB.addAccounData("firstName", firstName);
+            DB.addAccounData("lastName", lastName);
             
             return true;
 
@@ -75,7 +90,37 @@ public class Runtastic
             Log.e("app", "Runtastic.login", e.fillInStackTrace());
         }
 
+        logout(false);
         return false;
+    }
+    
+    public Boolean hasLogin()
+    {
+        Database DB = Database.getInstance(context);
+
+        String token = DB.getAccountData("token");
+        
+        if (token != null && !token.isEmpty()) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    public void logout()
+    {
+        logout(true);
+    }
+    
+    public void logout(Boolean withApi)
+    {
+        if (withApi) {
+            // TODO logout api call
+        }
+
+        Database DB = Database.getInstance(context);
+        
+        // DB.deleteAccountData("token");
     }
 
     private String getToken(JSONObject response) throws JSONException
@@ -124,18 +169,6 @@ public class Runtastic
         }
         
         return "";
-    }
-
-    /**
-     * returns the runtastic user id
-     * 
-     * @param response api response
-     * @return String
-     * @throws JSONException
-     */
-    private String getUserId(JSONObject response) throws JSONException
-    {
-        return response.getJSONObject("current_user").getString("id");
     }
 
     public String geteMail() {

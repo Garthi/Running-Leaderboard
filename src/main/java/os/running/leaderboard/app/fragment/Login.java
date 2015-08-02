@@ -11,7 +11,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import com.squareup.picasso.Picasso;
+import de.hdodenhof.circleimageview.CircleImageView;
 import os.running.leaderboard.app.R;
+import os.running.leaderboard.app.base.Database;
 import os.running.leaderboard.app.base.Runtastic;
 
 import java.util.regex.Matcher;
@@ -19,6 +23,7 @@ import java.util.regex.Pattern;
 
 /**
  * @author Martin "Garth" Zander <garth@new-crusader.de>
+ * @todo make this as activity not as fragment
  */
 public class Login extends Fragment
 {
@@ -86,7 +91,7 @@ public class Login extends Fragment
                 String email = ((EditText)mainView.findViewById(R.id.email)).getText().toString();
                 String password = ((EditText)mainView.findViewById(R.id.password)).getText().toString();
 
-                Runtastic runtastic = new Runtastic();
+                Runtastic runtastic = new Runtastic(getActivity());
 
                 runtastic.seteMail(email);
                 runtastic.setPassword(password);
@@ -107,6 +112,22 @@ public class Login extends Fragment
             if (!loginState) {
                 // TODO add login error message
                 Log.d("app", "login failed");
+                return;
+            }
+            
+            // update navigation header
+            Database DB = Database.getInstance(getActivity());
+            
+            String accountData = DB.getAccountData("firstName");
+            if (accountData != null) {
+                TextView text = (TextView)getActivity().findViewById(R.id.username);
+                text.setText(accountData);
+            }
+
+            accountData = DB.getAccountData("avatarUrl");
+            if (accountData != null) {
+                CircleImageView image = (CircleImageView)getActivity().findViewById(R.id.profile_image);
+                Picasso.with(getActivity()).load(accountData).placeholder(R.drawable.default_profile).into(image);
             }
             
             // TODO remove login screen
