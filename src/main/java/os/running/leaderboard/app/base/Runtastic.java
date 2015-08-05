@@ -52,9 +52,9 @@ public class Runtastic
         Calendar calendar = new GregorianCalendar();
         int currentYear = calendar.get(Calendar.YEAR);
         int currentWeek = calendar.get(Calendar.WEEK_OF_YEAR);
-        int currentMonth = calendar.get(Calendar.MONTH);
+        int currentMonth = calendar.get(Calendar.MONTH) + 1;
         int latestWeek = calendar.get(Calendar.WEEK_OF_YEAR) - 1;
-        int latestMonth = calendar.get(Calendar.MONTH) - 1;
+        int latestMonth = calendar.get(Calendar.MONTH);
         
         Connection api = new Connection(context);
 

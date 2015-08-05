@@ -35,6 +35,14 @@ public class Leaderboard extends Fragment
         return this.mainView;
     }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        new createContent().execute();
+    }
+
     private void createContent(JSONObject result)
     {
         if (result == null) {

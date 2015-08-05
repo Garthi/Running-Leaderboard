@@ -180,7 +180,7 @@ public class Main extends AppCompatActivity
                 case R.id.menu_settings:
                     
                     // default output TODO add a settings view
-                    Toast.makeText(getApplicationContext(), "open settings", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Coming soon ...", Toast.LENGTH_LONG).show();
                     
                     return true;
                 default:
