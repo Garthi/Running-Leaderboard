@@ -85,14 +85,16 @@ public class Leaderboard extends Fragment
                 Runtastic runtastic = new Runtastic(getActivity());
                 result = runtastic.leaderboard();
             } catch (Exception e) {
-                Log.e("app", "Leaderboard.createContent", e.fillInStackTrace());
+                e.printStackTrace();
+                Log.e("app", "Leaderboard.createContent" + e.getMessage());
             }
             
             return null;
         }
 
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(String s)
+        {
             super.onPostExecute(s);
 
             if (result == null) {

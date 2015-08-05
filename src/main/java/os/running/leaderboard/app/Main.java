@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.NavigationView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.squareup.picasso.Picasso;
@@ -17,17 +18,19 @@ import os.running.leaderboard.app.base.Database;
 import os.running.leaderboard.app.base.Runtastic;
 import os.running.leaderboard.app.fragment.Friends;
 import os.running.leaderboard.app.fragment.Leaderboard;
-import os.running.leaderboard.app.fragment.Login;
 
 public class Main extends AppCompatActivity
 {
     private DrawerLayout drawerLayout;
+    public static AppCompatActivity activity;
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        Main.activity = this;
         
         // Initializing Toolbar and setting it as the actionbar
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
@@ -44,7 +47,34 @@ public class Main extends AppCompatActivity
         );
         actionBarDrawerToggle.syncState();
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
+
+        updateNavigationHeader();
         
+        // Initializing default fragment
+        Leaderboard fragment = new Leaderboard();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.content, fragment);
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        
+        if (requestCode == 1) {
+            // update navigation header
+            updateNavigationHeader(false);
+        }
+    }
+
+    private void updateNavigationHeader()
+    {
+        updateNavigationHeader(true);
+    }
+    
+    private void updateNavigationHeader(Boolean withLogin)
+    {
         // update navigation header
         final Runtastic runtastic = new Runtastic(this);
         if (runtastic.hasLogin()) {
@@ -54,7 +84,7 @@ public class Main extends AppCompatActivity
                     runtastic.login(true);
                 }
             }).start();*/
-            
+
             Database DB = Database.getInstance(this);
 
             String accountData = DB.getAccountData("firstName");
@@ -68,18 +98,28 @@ public class Main extends AppCompatActivity
                 Picasso.with(this).load(accountData).placeholder(R.drawable.default_profile).into(image);
             }
         } else {
-            ((TextView)this.findViewById(R.id.username)).setText(R.string.default_login);
+
+            TextView text = (TextView)this.findViewById(R.id.username);
+            text.setText(R.string.default_login);
+            text.setClickable(true);
+            text.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    Intent intent = new Intent(view.getContext(), Login.class);
+                    startActivityForResult(intent, 1);
+                }
+            });
             ((CircleImageView)this.findViewById(R.id.profile_image)).setImageResource(R.drawable.default_profile);
+
+            if (withLogin) {
+                Intent intent = new Intent(this, Login.class);
+                startActivityForResult(intent, 1);
+            }
+
         }
-
-        // Initializing default fragment
-        Login fragment = new Login();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.content, fragment);
-        fragmentTransaction.commit();
-
     }
-    
     private class NavigationItemListener implements NavigationView.OnNavigationItemSelectedListener
     {
         @Override

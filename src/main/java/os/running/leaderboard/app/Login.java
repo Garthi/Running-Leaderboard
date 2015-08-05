@@ -1,21 +1,15 @@
-package os.running.leaderboard.app.fragment;
+package os.running.leaderboard.app;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import com.squareup.picasso.Picasso;
-import de.hdodenhof.circleimageview.CircleImageView;
-import os.running.leaderboard.app.R;
-import os.running.leaderboard.app.base.Database;
 import os.running.leaderboard.app.base.Runtastic;
 
 import java.util.regex.Matcher;
@@ -23,29 +17,31 @@ import java.util.regex.Pattern;
 
 /**
  * @author Martin "Garth" Zander <garth@new-crusader.de>
- * @todo make this as activity not as fragment
  */
-public class Login extends Fragment
+public class Login extends AppCompatActivity
 {
-    private LinearLayout mainView;
-    
+    private AppCompatActivity activity;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    protected void onCreate(Bundle savedInstanceState)
     {
-        this.mainView = (LinearLayout)inflater.inflate(R.layout.login, container, false);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.login);
         
-        this.configureView();
+        this.activity = this;
         
-        return this.mainView;
+        configureView();
     }
-    
+
     private void configureView()
     {
         try {
-            Button button = (Button) this.mainView.findViewById(R.id.button);
-            button.setOnClickListener(new View.OnClickListener() {
+            Button button = (Button)this.findViewById(R.id.button);
+            button.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view)
+                {
                     if (checkLogin()) {
                         new createLogin().execute();
                     }
@@ -61,16 +57,20 @@ public class Login extends Fragment
         Boolean valid = true;
         
         try {
-            EditText text = (EditText)this.mainView.findViewById(R.id.email);
+            EditText text = (EditText)activity.findViewById(R.id.email);
             if (text == null || !isEmailValid(text.getText().toString())) {
                 valid = false;
-                ((TextInputLayout)this.mainView.findViewById(R.id.email_layout)).setErrorEnabled(true);
+                ((TextInputLayout)activity.findViewById(R.id.email_layout)).setError(
+                        getResources().getString(R.string.login_error_email)
+                );
             }
 
-            text = (EditText)this.mainView.findViewById(R.id.password);
+            text = (EditText)activity.findViewById(R.id.password);
             if (text == null || text.getText().toString().length() <= 1) {
                 valid = false;
-                ((TextInputLayout)this.mainView.findViewById(R.id.password_layout)).setErrorEnabled(true);
+                ((TextInputLayout)activity.findViewById(R.id.password_layout)).setError(
+                        getResources().getString(R.string.login_error_password)
+                );
             }
             
         } catch (Exception e) {
@@ -89,10 +89,10 @@ public class Login extends Fragment
         {
             Log.d("app", "start login request");
             try {
-                String email = ((EditText)mainView.findViewById(R.id.email)).getText().toString();
-                String password = ((EditText)mainView.findViewById(R.id.password)).getText().toString();
+                String email = ((EditText)activity.findViewById(R.id.email)).getText().toString();
+                String password = ((EditText)activity.findViewById(R.id.password)).getText().toString();
 
-                Runtastic runtastic = new Runtastic(getActivity());
+                Runtastic runtastic = new Runtastic(activity);
 
                 runtastic.seteMail(email);
                 runtastic.setPassword(password);
@@ -117,23 +117,13 @@ public class Login extends Fragment
                 return;
             }
             
-            // update navigation header
-            Database DB = Database.getInstance(getActivity());
-            
-            String accountData = DB.getAccountData("firstName");
-            if (accountData != null) {
-                TextView text = (TextView)getActivity().findViewById(R.id.username);
-                text.setText(accountData);
-            }
-
-            accountData = DB.getAccountData("avatarUrl");
-            if (accountData != null) {
-                CircleImageView image = (CircleImageView)getActivity().findViewById(R.id.profile_image);
-                Picasso.with(getActivity()).load(accountData).placeholder(R.drawable.default_profile).into(image);
-            }
-            
-            // TODO remove login screen
+            // remove login screen
             Log.d("app", "end login");
+            Snackbar.make(Main.activity.findViewById(R.id.drawer_layout), R.string.login_success, Snackbar.LENGTH_LONG).show();
+            
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+            finish();
         }
     }
     

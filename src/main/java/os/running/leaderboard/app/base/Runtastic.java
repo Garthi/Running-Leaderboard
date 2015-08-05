@@ -44,7 +44,7 @@ public class Runtastic
 
         int userId = 0;
         
-        userId = Integer.getInteger(DB.getAccountData("userId"));
+        userId = Integer.parseInt(DB.getAccountData("userId"));
         if (userId <= 0) {
             return null;
         }

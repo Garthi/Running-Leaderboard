@@ -16,6 +16,10 @@
     <string name="hint_email">E-Mail</string>
     <string name="hint_password">Passwort</string>
     
+    <string name="login_error_email">Bitte gebe deine E-Mail Adresse ein</string>
+    <string name="login_error_password">Bitte gebe dein Passwort ein</string>
+    <string name="login_success">Du bist jetzt eingeloggt</string>
+    
     <string name="navigation_drawer_open">Open navigation</string>
     <string name="navigation_drawer_close">Close navigation</string>
 </resources>
