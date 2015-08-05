@@ -1,21 +1,29 @@
 package os.running.leaderboard.app.base;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.*;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Martin "Garth" Zander <garth@new-crusader.de>
  */
 public class Connection
 {
+    private Context context;
+    
     private String url;
     private String method;
     private List<Parameter> parameters;
     private String response;
+    
+    private String sessionCookieKey = "session";
     
     private Boolean httpsConnection = true;
     private int readTimeout = 10000;
@@ -24,6 +32,11 @@ public class Connection
     final public String METHOD_TYPE_GET = "GET";
     final public String METHOD_TYPE_POST = "POST";
 
+    public Connection(Context context)
+    {
+        this.context = context;
+    }
+    
     public void setUrl(String url)
     {
         this.url = url;
@@ -53,7 +66,14 @@ public class Connection
     public Boolean connect()
     {
         try {
-            URL url = new URL(this.url);
+
+            URL url;
+            if (this.method.equals(METHOD_TYPE_GET)) {
+                String connectionParameters = convertParameters();
+                url = new URL(this.url + "?" + connectionParameters);
+            } else {
+                url = new URL(this.url);
+            }
 
             HttpURLConnection connection;
             
@@ -62,6 +82,24 @@ public class Connection
             } else {
                 connection = (HttpURLConnection)url.openConnection();
             }
+            
+            
+            // set cookie session
+            SharedPreferences SharedData = PreferenceManager.getDefaultSharedPreferences(context);
+            if (SharedData.contains(sessionCookieKey)) {
+                connection.addRequestProperty("Cookie", SharedData.getString(sessionCookieKey, ""));
+                Log.d("app", "Cookie: " + SharedData.getString(sessionCookieKey, ""));
+            }
+
+            connection.addRequestProperty("Pragma", "no-cache");
+            connection.addRequestProperty("Cache-Control", "no-cache");
+            connection.addRequestProperty("Accept", "application/json, text/javascript, */*; q=0.01");
+            connection.addRequestProperty("X-App-Version", "3.0");
+            connection.addRequestProperty("X-App-Key", "com.runtastic.web");
+            
+            Map<String, List<String>> headers = connection.getRequestProperties();
+            Log.d("app", "headers" + headers.toString());
+
             
             connection.setReadTimeout(this.readTimeout);
             connection.setConnectTimeout(this.connectionTimeout);
@@ -83,8 +121,24 @@ public class Connection
                 os.close();
             }
 
-            if (Log.isLoggable("app", Log.DEBUG)) {
+            //if (Log.isLoggable("app", Log.DEBUG)) {
                 Log.d("app", "Response Code: " + connection.getResponseCode());
+            //}
+
+            // get cookies
+            Map<String, List<String>> headerFields = connection.getHeaderFields();
+            List<String> cookiesHeader = headerFields.get("Set-Cookie");
+            for (String cookie: cookiesHeader) {
+                if (cookie.startsWith(sessionCookieKey)) {
+                    //if (Log.isLoggable("app", Log.DEBUG)) {
+                        Log.d("app", "Session Cookie: " + cookie);
+                    //}
+                    SharedPreferences.Editor editor = SharedData.edit();
+                    editor.putString(sessionCookieKey, cookie);
+                    editor.apply();
+                } else {
+                    Log.d("app", "Cookie: " + cookie);
+                }
             }
 
             InputStream in = new BufferedInputStream(connection.getInputStream());
@@ -104,16 +158,20 @@ public class Connection
 
             return true;
         } catch (MalformedURLException e) {
-            Log.e("app", "connection url", e.fillInStackTrace());
+            Log.e("app", "connection url" + e.getLocalizedMessage());
         } catch (ProtocolException e) {
-            Log.e("app", "connection protocol", e.fillInStackTrace());
+            Log.e("app", "connection protocol" + e.getLocalizedMessage());
         } catch (UnsupportedEncodingException e) {
-            Log.e("app", "connection parameters", e.fillInStackTrace());
+            Log.e("app", "connection parameters" + e.getLocalizedMessage());
         } catch (IOException e) {
-            Log.e("app", "connection", e.fillInStackTrace());
+            Log.e("app", "connection" + e.getLocalizedMessage());
         }
         
         return false;
+    }
+
+    public void setSessionCookieKey(String sessionCookieKey) {
+        this.sessionCookieKey = sessionCookieKey;
     }
 
     private String convertParameters() throws UnsupportedEncodingException

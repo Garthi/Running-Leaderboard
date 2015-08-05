@@ -45,15 +45,16 @@ public class Main extends AppCompatActivity
         actionBarDrawerToggle.syncState();
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         
-        // Initializing default fragment
-        Leaderboard fragment = new Leaderboard();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.content, fragment);
-        fragmentTransaction.commit();
-        
         // update navigation header
-        Runtastic runtastic = new Runtastic(this);
+        final Runtastic runtastic = new Runtastic(this);
         if (runtastic.hasLogin()) {
+            /*new Thread(new Runnable() {
+                public void run() {
+                    // get session with automatic login
+                    runtastic.login(true);
+                }
+            }).start();*/
+            
             Database DB = Database.getInstance(this);
 
             String accountData = DB.getAccountData("firstName");
@@ -70,6 +71,13 @@ public class Main extends AppCompatActivity
             ((TextView)this.findViewById(R.id.username)).setText(R.string.default_login);
             ((CircleImageView)this.findViewById(R.id.profile_image)).setImageResource(R.drawable.default_profile);
         }
+
+        // Initializing default fragment
+        Login fragment = new Login();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.content, fragment);
+        fragmentTransaction.commit();
+
     }
     
     private class NavigationItemListener implements NavigationView.OnNavigationItemSelectedListener
@@ -95,7 +103,7 @@ public class Main extends AppCompatActivity
                 // Replacing the main content with ContentFragment Which is our Inbox View;
                 case R.id.menu_leader_board:
 
-                    Leaderboard leaderboard = Leaderboard.newInstance();
+                    Leaderboard leaderboard = new Leaderboard();
                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.content, leaderboard);
                     fragmentTransaction.addToBackStack(null);
@@ -104,7 +112,7 @@ public class Main extends AppCompatActivity
                     return true;
                 case R.id.menu_friends:
                     
-                    Friends friends = Friends.newInstance();
+                    Friends friends = new Friends();
                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.content, friends);
                     fragmentTransaction.addToBackStack(null);

@@ -10,6 +10,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -23,29 +25,117 @@ public class Runtastic
     private String password = null;
 
     final private String loginUrl = "https://www.runtastic.com/en/d/users/sign_in.json";
+    final private String leaderboardUrl = "https://hubs.runtastic.com/leaderboard/v2/applications/com_runtastic_core/users/%1$d/friends_leaderboards.json";
     
     public Runtastic(Context context)
     {
         this.context = context;
     }
 
-    public Boolean login()
+    public JSONObject leaderboard()
     {
-        if (eMail == null || eMail.isEmpty()) {
-            return false;
+        Database DB = Database.getInstance(context);
+
+        String token = DB.getAccountData("token");
+
+        if (token == null || token.isEmpty()) {
+            return null;
         }
 
-        if (password == null || password.isEmpty()) {
-            return false;
+        int userId = 0;
+        
+        userId = Integer.getInteger(DB.getAccountData("userId"));
+        if (userId <= 0) {
+            return null;
         }
 
-        Connection api = new Connection();
+        Calendar calendar = new GregorianCalendar();
+        int currentYear = calendar.get(Calendar.YEAR);
+        int currentWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+        int currentMonth = calendar.get(Calendar.MONTH);
+        int latestWeek = calendar.get(Calendar.WEEK_OF_YEAR) - 1;
+        int latestMonth = calendar.get(Calendar.MONTH) - 1;
+        
+        Connection api = new Connection(context);
 
         List<Parameter> parameters = new ArrayList<Parameter>();
-        parameters.add(new Parameter("user[email]", eMail));
-        parameters.add(new Parameter("user[password]", password));
-        parameters.add(new Parameter("authenticity_token", ""));
+        parameters.add(new Parameter("around", "2"));
+        parameters.add(new Parameter("bottom", "10"));
+        parameters.add(new Parameter("include", "user"));
+        parameters.add(new Parameter("top", "1"));
+        parameters.add(new Parameter(
+                "ids",
+                "distance:time_frame:week:" + currentYear + "_" + currentWeek +
+                ",distance:time_frame:week:" + currentYear + "_" + latestWeek +
+                ",distance:time_frame:month:" + currentYear + "_" + currentMonth +
+                ",distance:time_frame:month:" + currentYear + "_" + latestMonth)
+        );
 
+        api.setSessionCookieKey("_runtastic_session");
+        api.setUrl(String.format(leaderboardUrl, userId));
+        api.setMethod(api.METHOD_TYPE_GET);
+        api.setParameters(parameters);
+
+        if (!api.connect()) {
+            return null;
+        }
+        
+        try {
+            JSONObject response = new JSONObject(api.getResponse());
+
+            //if (Log.isLoggable("app", Log.DEBUG)) {
+                Log.d("app", "Response JSON: " + response.toString());
+            //}
+            
+            return response;
+        } catch (Exception e) {
+            Log.e("app", "Runtastic.leaderboard", e.fillInStackTrace());
+        }
+        
+        return null;
+    }
+    
+    public Boolean login()
+    {
+        return login(false);
+    }
+    
+    public Boolean login(Boolean autoLogin)
+    {
+        String token = "";
+        
+        if (autoLogin) {
+            Database DB = Database.getInstance(context);
+            
+            token = DB.getAccountData("token");
+            
+            if (token == null || token.isEmpty()) {
+                return false;
+            }
+            
+        } else {
+            if (eMail == null || eMail.isEmpty()) {
+                return false;
+            }
+            if (password == null || password.isEmpty()) {
+                return false;
+            }
+        }
+
+        Connection api = new Connection(context);
+
+        List<Parameter> parameters = new ArrayList<Parameter>();
+        if (autoLogin) {
+            parameters.add(new Parameter("user[email]", ""));
+            parameters.add(new Parameter("user[password]", ""));
+            parameters.add(new Parameter("authenticity_token", token));
+        } else {
+            parameters.add(new Parameter("user[email]", eMail));
+            parameters.add(new Parameter("user[password]", password));
+            parameters.add(new Parameter("authenticity_token", ""));
+        }
+
+        api.setSessionCookieKey("_runtastic_session");
         api.setUrl(loginUrl);
         api.setMethod(api.METHOD_TYPE_POST);
         api.setParameters(parameters);
@@ -67,7 +157,7 @@ public class Runtastic
                 return false;
             }
 
-            String token = getToken(response);
+            token = getToken(response);
             String userName = getUsername(response);
             String userId = response.getJSONObject("current_user").getString("id");
             String avatar = getAvatar(response);

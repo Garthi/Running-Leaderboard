@@ -85,7 +85,8 @@ public class Login extends Fragment
         Boolean loginState = false;
         
         @Override
-        protected String doInBackground(String... uri) {
+        protected String doInBackground(String... uri)
+        {
             Log.d("app", "start login request");
             try {
                 String email = ((EditText)mainView.findViewById(R.id.email)).getText().toString();
@@ -106,7 +107,8 @@ public class Login extends Fragment
         }
 
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(String s)
+        {
             super.onPostExecute(s);
 
             if (!loginState) {
