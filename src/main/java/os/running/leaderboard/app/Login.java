@@ -1,5 +1,6 @@
 package os.running.leaderboard.app;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -82,8 +83,16 @@ public class Login extends AppCompatActivity
     
     private class createLogin extends AsyncTask<String, String, String>
     {
-        Boolean loginState = false;
-        
+        private Boolean loginState = false;
+        private ProgressDialog dialog;
+
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+            dialog = ProgressDialog.show(activity, "Loading", "Please wait...", true);
+        }
+
         @Override
         protected String doInBackground(String... uri)
         {
@@ -111,6 +120,8 @@ public class Login extends AppCompatActivity
         {
             super.onPostExecute(s);
 
+            dialog.dismiss();
+            
             if (!loginState) {
                 // TODO add login error message
                 Log.d("app", "login failed");
