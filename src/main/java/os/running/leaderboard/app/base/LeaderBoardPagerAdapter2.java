@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * @author Martin "Garth" Zander <garth@new-crusader.de>
  */
-public class LeaderBoardPagerAdapter extends FragmentPagerAdapter
+public class LeaderBoardPagerAdapter2 extends FragmentStatePagerAdapter
 {
     final int PAGE_COUNT = 4;
     
@@ -33,7 +33,7 @@ public class LeaderBoardPagerAdapter extends FragmentPagerAdapter
     
     private Map<Integer, JSONObject> data = new HashMap<Integer, JSONObject>();
 
-    public LeaderBoardPagerAdapter(FragmentManager fm, Context context)
+    public LeaderBoardPagerAdapter2(FragmentManager fm, Context context)
     {
         super(fm);
         this.context = context;
