@@ -17,7 +17,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import os.running.leaderboard.app.base.Database;
 import os.running.leaderboard.app.base.Runtastic;
 import os.running.leaderboard.app.fragment.Friends;
-import os.running.leaderboard.app.fragment.Leaderboard;
+import os.running.leaderboard.app.fragment.LeaderBoard;
 
 public class Main extends AppCompatActivity
 {
@@ -51,7 +51,7 @@ public class Main extends AppCompatActivity
         updateNavigationHeader();
         
         // Initializing default fragment
-        Leaderboard fragment = new Leaderboard();
+        LeaderBoard fragment = new LeaderBoard();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.content, fragment);
         fragmentTransaction.commit();
@@ -143,9 +143,9 @@ public class Main extends AppCompatActivity
                 // Replacing the main content with ContentFragment Which is our Inbox View;
                 case R.id.menu_leader_board:
 
-                    Leaderboard leaderboard = new Leaderboard();
+                    LeaderBoard leaderBoard = new LeaderBoard();
                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.content, leaderboard);
+                    fragmentTransaction.replace(R.id.content, leaderBoard);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                     

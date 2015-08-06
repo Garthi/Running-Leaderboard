@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import os.running.leaderboard.app.R;
 
 /**
@@ -12,29 +13,16 @@ import os.running.leaderboard.app.R;
  */
 public class Friends extends Fragment
 {
-    /**
-     * this fragment representing
-     */
-    private static Friends self = null;
-
-    /**
-     * Returns a new instance of this fragment
-     */
-    public static Friends newInstance()
-    {
-        if (self == null) {
-            self = new Friends();
-        }
-        
-        return self;
-    }
-
+    private LinearLayout mainView;
+    
     public Friends()
     {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        return inflater.inflate(R.layout.friends, container, false);
+        this.mainView = (LinearLayout)inflater.inflate(R.layout.friends, container, false);
+
+        return this.mainView;
     }
 }
