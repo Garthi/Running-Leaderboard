@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * @author Martin "Garth" Zander <garth@new-crusader.de>
  */
-public class LeaderBoardPagerAdapter2 extends FragmentStatePagerAdapter
+public class LeaderBoardPagerAdapter extends FragmentStatePagerAdapter
 {
     final int PAGE_COUNT = 4;
     
@@ -33,7 +33,7 @@ public class LeaderBoardPagerAdapter2 extends FragmentStatePagerAdapter
     
     private Map<Integer, JSONObject> data = new HashMap<Integer, JSONObject>();
 
-    public LeaderBoardPagerAdapter2(FragmentManager fm, Context context)
+    public LeaderBoardPagerAdapter(FragmentManager fm, Context context)
     {
         super(fm);
         this.context = context;
