@@ -1,13 +1,16 @@
 package os.running.leaderboard.app;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.design.widget.NavigationView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -54,7 +57,24 @@ public class Main extends AppCompatActivity
         LeaderBoard fragment = new LeaderBoard();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.content, fragment);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+
+        FragmentManager fm = getSupportFragmentManager();
+        fm.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener()
+        {
+            @Override
+            public void onBackStackChanged()
+            {
+                if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                    drawerLayout.closeDrawers();
+                } else {
+                    if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                        finish();
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -187,6 +207,16 @@ public class Main extends AppCompatActivity
                     
                     return true;
             }
+        }
+    }
+
+    @Override @TargetApi(9)
+    public void onBackPressed()
+    {
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            drawerLayout.closeDrawers();
+        } else {
+            getSupportFragmentManager().popBackStack();
         }
     }
 }
