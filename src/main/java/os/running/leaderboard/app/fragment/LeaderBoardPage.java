@@ -1,16 +1,18 @@
 package os.running.leaderboard.app.fragment;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import org.json.JSONObject;
 import os.running.leaderboard.app.R;
+import os.running.leaderboard.app.base.LeaderBoardAdapter;
+import os.running.leaderboard.app.base.LeaderBoardAdapterData;
 
 /**
  * @author Martin "Garth" Zander <garth@new-crusader.de>
@@ -47,6 +49,15 @@ public class LeaderBoardPage extends Fragment
     {
         if (this.mainView == null) {
             this.mainView = (LinearLayout) inflater.inflate(R.layout.leader_board_page, container, false);
+
+            RecyclerView listView = (RecyclerView)mainView.findViewById(R.id.listView);
+            listView.setHasFixedSize(true);
+
+            RecyclerView.LayoutManager manager = new LinearLayoutManager(this.getActivity());
+            listView.setLayoutManager(manager);
+
+            LeaderBoardAdapter adapter = new LeaderBoardAdapter();
+            listView.setAdapter(adapter);
         }
         
         if (this.contentData != null) {
@@ -68,24 +79,30 @@ public class LeaderBoardPage extends Fragment
     private void createContent(JSONObject data)
     {
         try {
-            this.mainView.removeAllViews();
+            // hide Progress Bar
+            mainView.findViewById(R.id.loadingView).setVisibility(View.GONE);
+            
+            // load listView adapter
+            RecyclerView listView = (RecyclerView)mainView.findViewById(R.id.listView);
+            LeaderBoardAdapter adapter = (LeaderBoardAdapter)listView.getAdapter();
 
-            TextView memberView = new TextView(getActivity());
-            memberView.setText(data.getString("id") + ": ");
-            memberView.setTypeface(Typeface.DEFAULT_BOLD, Typeface.BOLD_ITALIC);
+            // reset adapter data
+            adapter.reset();
 
-            this.mainView.addView(memberView);
-
+            // fill adapter
             for (int i = 0; i < data.getJSONArray("entries").length(); i++) {
 
                 JSONObject member = data.getJSONArray("entries").getJSONObject(i);
 
-                memberView = new TextView(getActivity());
-
-                memberView.setText(member.getString("entry_number") + ". " + member.getJSONObject("member_data").getString("name") + " " + member.getString("score"));
-
-                this.mainView.addView(memberView);
+                LeaderBoardAdapterData adapterData = new LeaderBoardAdapterData();
+                
+                adapterData.setNumber(member.getInt("entry_number"));
+                adapterData.setUserName(member.getJSONObject("member_data").getString("name"));
+                adapterData.setScore(member.getDouble("score"));
+                
+                adapter.add(adapterData);
             }
+            
         }  catch (Exception e) {
             Log.e("app", "LeaderBoardPage.createContent (" + mPage + "): " + e.getMessage());
         }
