@@ -14,12 +14,10 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 import os.running.leaderboard.app.base.Database;
 import os.running.leaderboard.app.base.Runtastic;
-import os.running.leaderboard.app.fragment.Friends;
 import os.running.leaderboard.app.fragment.LeaderBoard;
 
 public class Main extends AppCompatActivity
@@ -170,7 +168,7 @@ public class Main extends AppCompatActivity
                     fragmentTransaction.commit();
                     
                     return true;
-                case R.id.menu_friends:
+                /*case R.id.menu_friends:
                     
                     Friends friends = new Friends();
                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -178,7 +176,7 @@ public class Main extends AppCompatActivity
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                     
-                    return true;
+                    return true;*/
                 case R.id.menu_runtastic_apps:
 
                     Uri appUrl = Uri.parse("https://play.google.com/store/apps/dev?id=8438666261259599516");
@@ -197,12 +195,12 @@ public class Main extends AppCompatActivity
                     }
                     
                     return true;
-                case R.id.menu_settings:
+                /*case R.id.menu_settings:
                     
                     // default output TODO add a settings view
                     Toast.makeText(getApplicationContext(), "Coming soon ...", Toast.LENGTH_LONG).show();
                     
-                    return true;
+                    return true;*/
                 default:
                     
                     return true;

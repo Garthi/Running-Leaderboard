@@ -6,11 +6,11 @@
             android:checked="true"
             android:icon="@drawable/ic_action_leaderboard"
             android:title="@string/menu_leader_board"/>
-        <item
+        <!--item
             android:id="@+id/menu_friends"
             android:checked="false"
             android:icon="@drawable/ic_action_friends"
-            android:title="@string/menu_friends"/>
+            android:title="@string/menu_friends"/-->
     </group>
     <item android:title="@string/menu_runtastic">
         <menu>
@@ -26,7 +26,7 @@
                 android:title="@string/menu_runtastic_url"/>
         </menu>
     </item>
-    <group
+    <!--group
         android:id="@+id/group_settings"
         android:checkableBehavior="none">
         <item
@@ -34,5 +34,5 @@
             android:checked="false"
             android:icon="@drawable/ic_action_settings"
             android:title="@string/menu_settings"/>
-    </group>
+    </group-->
 </menu>
