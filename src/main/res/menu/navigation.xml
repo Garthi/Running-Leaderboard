@@ -11,6 +11,11 @@
             android:checked="false"
             android:icon="@drawable/ic_action_friends"
             android:title="@string/menu_friends"/-->
+        <item
+            android:id="@+id/menu_sessions"
+            android:checked="false"
+            android:icon="@drawable/ic_action_settings"
+            android:title="@string/menu_sessions"/>
     </group>
     <item android:title="@string/menu_runtastic">
         <menu>
