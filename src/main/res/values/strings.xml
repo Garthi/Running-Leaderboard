@@ -16,14 +16,14 @@
     <string name="hint_email">E-Mail</string>
     <string name="hint_password">Passwort</string>
     
-    <string name="login_error_email">Bitte gebe deine E-Mail Adresse ein</string>
-    <string name="login_error_password">Bitte gebe dein Passwort ein</string>
+    <string name="login_error_email">Bitte gib deine E-Mail Adresse ein</string>
+    <string name="login_error_password">Bitte gib dein Passwort ein</string>
     <string name="login_success">Du bist jetzt eingeloggt</string>
     
     <string name="leader_board_this_week">Diese Woche</string>
     <string name="leader_board_last_week">Letzte Woche</string>
-    <string name="leader_board_this_month">Diesen Monat</string>
-    <string name="leader_board_last_month">Letzten Monat</string>
+    <string name="leader_board_this_month">Dieser Monat</string>
+    <string name="leader_board_last_month">Letzter Monat</string>
     
     <string name="navigation_drawer_open">Open navigation</string>
     <string name="navigation_drawer_close">Close navigation</string>
