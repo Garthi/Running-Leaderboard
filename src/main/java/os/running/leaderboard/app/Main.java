@@ -19,6 +19,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import os.running.leaderboard.app.base.Database;
 import os.running.leaderboard.app.base.Runtastic;
 import os.running.leaderboard.app.fragment.LeaderBoard;
+import os.running.leaderboard.app.fragment.LiveSessions;
 
 public class Main extends AppCompatActivity
 {
@@ -164,6 +165,15 @@ public class Main extends AppCompatActivity
                     LeaderBoard leaderBoard = new LeaderBoard();
                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.content, leaderBoard);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    
+                    return true;
+                case R.id.menu_sessions:
+
+                    LiveSessions liveSessions = new LiveSessions();
+                    fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.content, liveSessions);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                     

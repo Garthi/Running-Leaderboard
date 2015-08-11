@@ -26,6 +26,9 @@
     <string name="leader_board_this_month">Diesen Monat</string>
     <string name="leader_board_last_month">Letzten Monat</string>
     
+    <string name="live_sessions_friends">Freunde</string>
+    <string name="live_sessions_world">Welt</string>
+    
     <string name="navigation_drawer_open">Open navigation</string>
     <string name="navigation_drawer_close">Close navigation</string>
 </resources>
