@@ -26,6 +26,8 @@ public class Runtastic
 
     final private String loginUrl = "https://www.runtastic.com/en/d/users/sign_in.json";
     final private String leaderboardUrl = "https://hubs.runtastic.com/leaderboard/v2/applications/com_runtastic_core/users/%1$d/friends_leaderboards.json";
+    final private String liveSessionUrl = "https://www.runtastic.com/en/users/%1$s/live_sessions";
+    final private String friendsLiveSessionUrl = "https://www.runtastic.com/en/users/%1$s/friends_live_sessions";
     
     public Runtastic(Context context)
     {
@@ -93,6 +95,74 @@ public class Runtastic
         }
         
         return null;
+    }
+    
+    public JSONObject liveSessions()
+    {
+        Database DB = Database.getInstance(context);
+        
+        String userName = DB.getAccountData("userName");
+        if (userName == null || userName.equals("")) {
+            return null;
+        }
+        
+        Connection api = new Connection(context);
+
+        api.setSessionCookieKey("_runtastic_session");
+        api.setUrl(String.format(liveSessionUrl, userName));
+        api.setMethod(api.METHOD_TYPE_GET);
+
+        if (!api.connect()) {
+            return null;
+        }
+
+        try {
+            Document doc = Jsoup.parse(api.getResponse());
+            
+            // TODO: process response
+            Log.d("app", "World Document: " + doc.toString());
+            
+            return null;
+
+        } catch (Exception e) {
+            Log.e("app", "Runtastic.liveSessions", e.fillInStackTrace());
+        }
+        
+        return new JSONObject();
+    }
+    
+    public JSONObject friendsLiveSessions()
+    {
+        Database DB = Database.getInstance(context);
+
+        String userName = DB.getAccountData("userName");
+        if (userName == null || userName.equals("")) {
+            return null;
+        }
+
+        Connection api = new Connection(context);
+
+        api.setSessionCookieKey("_runtastic_session");
+        api.setUrl(String.format(friendsLiveSessionUrl, userName));
+        api.setMethod(api.METHOD_TYPE_GET);
+
+        if (!api.connect()) {
+            return null;
+        }
+
+        try {
+            Document doc = Jsoup.parse(api.getResponse());
+
+            // TODO: process response
+            Log.d("app", "Friends Document: " + doc.toString());
+            
+            return null;
+
+        } catch (Exception e) {
+            Log.e("app", "Runtastic.friendsLiveSessions", e.fillInStackTrace());
+        }
+        
+        return new JSONObject();
     }
     
     public Boolean login()

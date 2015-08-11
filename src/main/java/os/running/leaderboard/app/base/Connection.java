@@ -176,6 +176,10 @@ public class Connection
 
     private String convertParameters() throws UnsupportedEncodingException
     {
+        if (parameters == null) {
+            return "";
+        }
+        
         StringBuilder result = new StringBuilder();
         boolean first = true;
 
