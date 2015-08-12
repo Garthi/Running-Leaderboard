@@ -2,6 +2,7 @@ package os.running.leaderboard.app.base;
 
 import android.content.Context;
 import android.util.Log;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -119,10 +120,38 @@ public class Runtastic
         try {
             Document doc = Jsoup.parse(api.getResponse());
             
-            // TODO: process response
-            Log.d("app", "World Document: " + doc.toString());
+            Elements sessions = doc.getElementsByClass("run_session");
             
-            return null;
+            if (sessions.isEmpty()) {
+                return null;
+            }
+            
+            JSONObject response = new JSONObject();
+            JSONArray responseSession = new JSONArray();
+            
+            for (Element session: sessions) {
+                
+                JSONObject entry = new JSONObject();
+
+                Element user = session.getElementsByClass("avatar-group").get(0).getElementsByTag("a").get(0);
+                
+                entry.put("user", user.attr("title"));
+                entry.put("url", user.attr("href"));
+                entry.put("avatarUrl", session.getElementsByClass("avatar").get(0).attr("src"));
+                entry.put("text", session.getElementsByClass("content").text());
+
+                for (Element link: session.getElementsByTag("a")) {
+                    if (link.attr("href").contains("/sport-sessions/")) {
+                        entry.put("sessionUrl", link.attr("href"));
+                    }
+                }
+
+                responseSession.put(entry);
+            }
+
+            response.put("sessions", responseSession);
+            
+            return response;
 
         } catch (Exception e) {
             Log.e("app", "Runtastic.liveSessions", e.fillInStackTrace());
@@ -153,10 +182,38 @@ public class Runtastic
         try {
             Document doc = Jsoup.parse(api.getResponse());
 
-            // TODO: process response
-            Log.d("app", "Friends Document: " + doc.toString());
-            
-            return null;
+            Elements sessions = doc.getElementsByClass("run_session");
+
+            if (sessions.isEmpty()) {
+                return null;
+            }
+
+            JSONObject response = new JSONObject();
+            JSONArray responseSession = new JSONArray();
+
+            for (Element session: sessions) {
+
+                JSONObject entry = new JSONObject();
+
+                Element user = session.getElementsByClass("avatar-group").get(0).getElementsByTag("a").get(0);
+
+                entry.put("user", user.attr("title"));
+                entry.put("url", user.attr("href"));
+                entry.put("avatarUrl", session.getElementsByClass("avatar").get(0).attr("src"));
+                entry.put("text", session.getElementsByClass("content").text());
+
+                for (Element link: session.getElementsByTag("a")) {
+                    if (link.attr("href").contains("/sport-sessions/")) {
+                        entry.put("sessionUrl", link.attr("href"));
+                    }
+                }
+
+                responseSession.put(entry);
+            }
+
+            response.put("sessions", responseSession);
+
+            return response;
 
         } catch (Exception e) {
             Log.e("app", "Runtastic.friendsLiveSessions", e.fillInStackTrace());

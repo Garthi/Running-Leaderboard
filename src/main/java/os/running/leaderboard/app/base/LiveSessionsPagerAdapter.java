@@ -30,9 +30,9 @@ public class LiveSessionsPagerAdapter extends AbstractPagerAdapter
         this.fragment.put(position, fragment);
         
         if (position == 0) {
-            fragment.loadData(fragment.TYPE_WORLD);
-        } else {
             fragment.loadData(fragment.TYPE_FRIENDS);
+        } else {
+            fragment.loadData(fragment.TYPE_WORLD);
         }
 
         return fragment;
