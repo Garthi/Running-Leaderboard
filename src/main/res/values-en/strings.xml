@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Running-Leaderboard</string>
+
+    <string name="menu_leader_board">Leaderboard</string>
+    <string name="menu_friends">Friends</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_runtastic">Runtastic</string>
+    <string name="menu_runtastic_apps">Runtastic Apps</string>
+    <string name="menu_runtastic_url">runtastic.com</string>
+
+    <string name="default_login">Guest</string>
+    <string name="default_login_mail"> </string>
+    
+    <string name="button_text_login">Login</string>
+    
+    <string name="hint_email">E-mail</string>
+    <string name="hint_password">Password</string>
+    
+    <string name="login_error_email">Please enter your e-mail address</string>
+    <string name="login_error_password">Please enter your password</string>
+    <string name="login_success">You are logged in</string>
+    
+    <string name="leader_board_this_week">This week</string>
+    <string name="leader_board_last_week">Last week</string>
+    <string name="leader_board_this_month">This month</string>
+    <string name="leader_board_last_month">Last month</string>
+    
+    <string name="navigation_drawer_open">Open navigation</string>
+    <string name="navigation_drawer_close">Close navigation</string>
+</resources>
