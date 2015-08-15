@@ -2,6 +2,7 @@ package os.running.leaderboard.app.base;
 
 import android.content.Context;
 import android.util.Log;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -26,6 +27,8 @@ public class Runtastic
 
     final private String loginUrl = "https://www.runtastic.com/en/d/users/sign_in.json";
     final private String leaderboardUrl = "https://hubs.runtastic.com/leaderboard/v2/applications/com_runtastic_core/users/%1$d/friends_leaderboards.json";
+    final private String liveSessionUrl = "https://www.runtastic.com/en/users/%1$s/live_sessions";
+    final private String friendsLiveSessionUrl = "https://www.runtastic.com/en/users/%1$s/friends_live_sessions";
     
     public Runtastic(Context context)
     {
@@ -93,6 +96,130 @@ public class Runtastic
         }
         
         return null;
+    }
+    
+    public JSONObject liveSessions()
+    {
+        Database DB = Database.getInstance(context);
+        
+        String userName = DB.getAccountData("userName");
+        if (userName == null || userName.equals("")) {
+            return null;
+        }
+        
+        Connection api = new Connection(context);
+
+        api.setSessionCookieKey("_runtastic_session");
+        api.setUrl(String.format(liveSessionUrl, userName));
+        api.setMethod(api.METHOD_TYPE_GET);
+
+        if (!api.connect()) {
+            return null;
+        }
+
+        try {
+            Document doc = Jsoup.parse(api.getResponse());
+            
+            Elements sessions = doc.getElementsByClass("run_session");
+            
+            if (sessions.isEmpty()) {
+                return null;
+            }
+            
+            JSONObject response = new JSONObject();
+            JSONArray responseSession = new JSONArray();
+            
+            for (Element session: sessions) {
+                
+                JSONObject entry = new JSONObject();
+
+                Element user = session.getElementsByClass("avatar-group").get(0).getElementsByTag("a").get(0);
+                
+                entry.put("user", user.attr("title"));
+                entry.put("url", user.attr("href"));
+                entry.put("avatarUrl", session.getElementsByClass("avatar").get(0).attr("src"));
+                entry.put("text", session.getElementsByClass("content").text());
+
+                for (Element link: session.getElementsByTag("a")) {
+                    if (link.attr("href").contains("/sport-sessions/")) {
+                        entry.put("sessionUrl", link.attr("href"));
+                    }
+                }
+
+                responseSession.put(entry);
+            }
+
+            response.put("sessions", responseSession);
+            
+            return response;
+
+        } catch (Exception e) {
+            Log.e("app", "Runtastic.liveSessions", e.fillInStackTrace());
+        }
+        
+        return new JSONObject();
+    }
+    
+    public JSONObject friendsLiveSessions()
+    {
+        Database DB = Database.getInstance(context);
+
+        String userName = DB.getAccountData("userName");
+        if (userName == null || userName.equals("")) {
+            return null;
+        }
+
+        Connection api = new Connection(context);
+
+        api.setSessionCookieKey("_runtastic_session");
+        api.setUrl(String.format(friendsLiveSessionUrl, userName));
+        api.setMethod(api.METHOD_TYPE_GET);
+
+        if (!api.connect()) {
+            return null;
+        }
+
+        try {
+            Document doc = Jsoup.parse(api.getResponse());
+
+            Elements sessions = doc.getElementsByClass("run_session");
+
+            if (sessions.isEmpty()) {
+                return null;
+            }
+
+            JSONObject response = new JSONObject();
+            JSONArray responseSession = new JSONArray();
+
+            for (Element session: sessions) {
+
+                JSONObject entry = new JSONObject();
+
+                Element user = session.getElementsByClass("avatar-group").get(0).getElementsByTag("a").get(0);
+
+                entry.put("user", user.attr("title"));
+                entry.put("url", user.attr("href"));
+                entry.put("avatarUrl", session.getElementsByClass("avatar").get(0).attr("src"));
+                entry.put("text", session.getElementsByClass("content").text());
+
+                for (Element link: session.getElementsByTag("a")) {
+                    if (link.attr("href").contains("/sport-sessions/")) {
+                        entry.put("sessionUrl", link.attr("href"));
+                    }
+                }
+
+                responseSession.put(entry);
+            }
+
+            response.put("sessions", responseSession);
+
+            return response;
+
+        } catch (Exception e) {
+            Log.e("app", "Runtastic.friendsLiveSessions", e.fillInStackTrace());
+        }
+        
+        return new JSONObject();
     }
     
     public Boolean login()

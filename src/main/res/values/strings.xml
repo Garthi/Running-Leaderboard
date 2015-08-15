@@ -3,6 +3,7 @@
 
     <string name="menu_leader_board">Rangliste</string>
     <string name="menu_friends">Freunde</string>
+    <string name="menu_sessions">Live</string>
     <string name="menu_settings">Einstellungen</string>
     <string name="menu_runtastic">Runtastic</string>
     <string name="menu_runtastic_apps">Runtastic Apps</string>
@@ -24,6 +25,11 @@
     <string name="leader_board_last_week">Letzte Woche</string>
     <string name="leader_board_this_month">Dieser Monat</string>
     <string name="leader_board_last_month">Letzter Monat</string>
+    
+    <string name="live_sessions_friends">Freunde</string>
+    <string name="live_sessions_world">Welt</string>
+    <string name="live_sessions_no_session_title">Keine Aktivitäten verfügbar</string>
+    <string name="live_sessions_no_session">Starte eine Aktivität mit Live tracking und lasse dich LIVE von deinen Freunden anfeuern</string>
     
     <string name="navigation_drawer_open">Navigation öffnen</string>
     <string name="navigation_drawer_close">Navigation schließen</string>

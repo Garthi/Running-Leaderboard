@@ -1,7 +1,6 @@
 package os.running.leaderboard.app.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,39 +10,17 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import org.json.JSONObject;
 import os.running.leaderboard.app.R;
+import os.running.leaderboard.app.base.AbstractPagerPage;
 import os.running.leaderboard.app.base.LeaderBoardAdapter;
 import os.running.leaderboard.app.base.LeaderBoardAdapterData;
 
 /**
  * @author Martin "Garth" Zander <garth@new-crusader.de>
  */
-public class LeaderBoardPage extends Fragment
+public class LeaderBoardPage extends AbstractPagerPage
 {
-    public static final String ARG_PAGE = "ARG_PAGE";
-    
-    private int mPage;
     private JSONObject contentData = null;
     
-    private LinearLayout mainView = null;
-    
-    public static LeaderBoardPage newInstance(int page)
-    {
-        Bundle args = new Bundle();
-        args.putInt(ARG_PAGE, page);
-        
-        LeaderBoardPage fragment = new LeaderBoardPage();
-        fragment.setArguments(args);
-        
-        return fragment;
-    }
-    
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        mPage = getArguments().getInt(ARG_PAGE);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -104,7 +81,7 @@ public class LeaderBoardPage extends Fragment
             }
             
         }  catch (Exception e) {
-            Log.e("app", "LeaderBoardPage.createContent (" + mPage + "): " + e.getMessage());
+            Log.e("app", "LeaderBoardPage.createContent: " + e.getMessage());
         }
     }
 }
