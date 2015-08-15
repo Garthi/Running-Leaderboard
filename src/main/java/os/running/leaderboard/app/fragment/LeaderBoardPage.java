@@ -1,5 +1,8 @@
 package os.running.leaderboard.app.fragment;
 
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import org.json.JSONObject;
 import os.running.leaderboard.app.R;
@@ -20,6 +24,7 @@ import os.running.leaderboard.app.base.LeaderBoardAdapterData;
 public class LeaderBoardPage extends AbstractPagerPage
 {
     private JSONObject contentData = null;
+    private Boolean emptyData = false;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -36,9 +41,11 @@ public class LeaderBoardPage extends AbstractPagerPage
             LeaderBoardAdapter adapter = new LeaderBoardAdapter();
             listView.setAdapter(adapter);
         }
-        
+
         if (this.contentData != null) {
             createContent(this.contentData);
+        } else if (emptyData) {
+            createEmptyContent();
         }
         
         return this.mainView;
@@ -51,6 +58,29 @@ public class LeaderBoardPage extends AbstractPagerPage
         if (this.mainView != null) {
             createContent(data);
         }
+    }
+
+    public void setEmptyContent()
+    {
+        emptyData = true;
+        
+        if (this.mainView != null) {
+            createEmptyContent();
+        }
+    }
+    
+    private void createEmptyContent()
+    {
+        // hide Progress Bar
+        mainView.findViewById(R.id.loadingView).setVisibility(View.GONE);
+
+        // show default empty view
+        mainView.findViewById(R.id.emptyView).setVisibility(View.VISIBLE);
+
+        // modified image color
+        ImageView image = (ImageView)mainView.findViewById(R.id.emptyImage);
+        ColorFilter filter = new LightingColorFilter(Color.parseColor("#6A6A6A"), Color.WHITE);
+        image.setColorFilter(filter);
     }
     
     private void createContent(JSONObject data)

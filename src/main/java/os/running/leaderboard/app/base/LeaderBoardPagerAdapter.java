@@ -19,6 +19,7 @@ import java.util.Map;
 public class LeaderBoardPagerAdapter extends AbstractPagerAdapter
 {
     protected Map<Integer, JSONObject> data = new HashMap<Integer, JSONObject>();
+    private Boolean dataLoaded = false;
 
     public LeaderBoardPagerAdapter(FragmentManager fm, Context context)
     {
@@ -44,6 +45,8 @@ public class LeaderBoardPagerAdapter extends AbstractPagerAdapter
 
         if (data != null && data.size() >= position) {
             fragment.setContentData(data.get(position));
+        } else if (dataLoaded) {
+            fragment.setEmptyContent();
         }
         
         return fragment;
@@ -52,6 +55,16 @@ public class LeaderBoardPagerAdapter extends AbstractPagerAdapter
     private void createContent(JSONObject result)
     {
         if (result == null) {
+            if (this.fragment != null && this.fragment.size() >= 1) {
+                
+                for (int i = 0; i < this.fragment.size(); i++) {
+                    LeaderBoardPage fragment = (LeaderBoardPage)this.fragment.get(i);
+                    if (fragment != null) {
+                        fragment.setEmptyContent();
+                    }
+                }
+            }
+            
             return;
         }
 
@@ -100,8 +113,10 @@ public class LeaderBoardPagerAdapter extends AbstractPagerAdapter
         {
             super.onPostExecute(s);
 
+            dataLoaded = true;
+            
             if (result == null) {
-                // TODO add error message
+                createContent(null);
                 Log.d("app", "content failed");
                 return;
             }

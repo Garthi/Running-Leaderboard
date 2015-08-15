@@ -10,6 +10,40 @@
         android:layout_height="wrap_content"
         style="?android:attr/progressBarStyleLarge"
         android:layout_gravity="center"/>
+    <LinearLayout
+        android:id="@+id/emptyView"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="gone"
+        android:background="@color/app_blue_light_bg">
+        <ImageView
+            android:id="@+id/emptyImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_running"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/app_white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-condensed"
+            android:text="@string/leader_board_no_activities_title"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:textColor="@color/app_white"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="@string/leader_board_no_activities"/>
+    </LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listView"
         android:scrollbars="vertical"
