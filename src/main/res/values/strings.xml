@@ -25,6 +25,6 @@
     <string name="leader_board_this_month">Dieser Monat</string>
     <string name="leader_board_last_month">Letzter Monat</string>
     
-    <string name="navigation_drawer_open">Open navigation</string>
-    <string name="navigation_drawer_close">Close navigation</string>
+    <string name="navigation_drawer_open">Navigation öffnen</string>
+    <string name="navigation_drawer_close">Navigation schließen</string>
 </resources>
