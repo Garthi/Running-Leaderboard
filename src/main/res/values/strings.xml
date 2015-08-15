@@ -28,6 +28,8 @@
     
     <string name="live_sessions_friends">Freunde</string>
     <string name="live_sessions_world">Welt</string>
+    <string name="live_sessions_no_session_title">Keine Aktivitäten verfügbar</string>
+    <string name="live_sessions_no_session">Starte eine Aktivität mit Live tracking und lasse dich LIVE von deinen Freunden anfeuern</string>
     
     <string name="navigation_drawer_open">Open navigation</string>
     <string name="navigation_drawer_close">Close navigation</string>

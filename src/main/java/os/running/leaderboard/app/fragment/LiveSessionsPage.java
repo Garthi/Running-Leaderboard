@@ -1,5 +1,8 @@
 package os.running.leaderboard.app.fragment;
 
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,6 +34,7 @@ public class LiveSessionsPage extends AbstractPagerPage
     public final int TYPE_WORLD = 1;
     private LiveSessionAdapter adapter = null;
     protected Map<Integer, LiveSessionAdapterData> data = new HashMap<Integer, LiveSessionAdapterData>();
+    private boolean dataLoaded = false; 
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -51,6 +56,8 @@ public class LiveSessionsPage extends AbstractPagerPage
                     disableLoadingView();
                     adapter.add(sessionData);
                 }
+            } else if (dataLoaded) {
+                createEmptyContent();
             }
         }
         
@@ -60,6 +67,19 @@ public class LiveSessionsPage extends AbstractPagerPage
     private void disableLoadingView()
     {
         mainView.findViewById(R.id.loadingView).setVisibility(View.GONE);
+    }
+    
+    private void createEmptyContent()
+    {
+        disableLoadingView();
+        
+        // show default empty view
+        mainView.findViewById(R.id.emptyView).setVisibility(View.VISIBLE);
+        
+        // modified image color
+        ImageView image = (ImageView)mainView.findViewById(R.id.emptyImage);
+        ColorFilter filter = new LightingColorFilter(Color.parseColor("#6A6A6A"), Color.WHITE);
+        image.setColorFilter(filter);
     }
     
     public void loadData(final int type)
@@ -95,8 +115,12 @@ public class LiveSessionsPage extends AbstractPagerPage
             super.onPostExecute(s);
 
             if (result == null) {
-                // TODO add error message
                 Log.d("app", "content failed");
+
+                if (adapter != null) {
+                    createEmptyContent();
+                }
+                
                 return;
             }
 
@@ -125,6 +149,8 @@ public class LiveSessionsPage extends AbstractPagerPage
             } catch (Exception e) {
                 Log.e("app", "LiveSessionsPage.createContent.onPostExecute: " + e.getMessage());
             }
+            
+            dataLoaded = true;
         }
     }
 }
