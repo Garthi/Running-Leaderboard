@@ -5,6 +5,7 @@ import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -34,7 +35,8 @@ public class LiveSessionsPage extends AbstractPagerPage
     public final int TYPE_WORLD = 1;
     private LiveSessionAdapter adapter = null;
     protected Map<Integer, LiveSessionAdapterData> data = new HashMap<Integer, LiveSessionAdapterData>();
-    private boolean dataLoaded = false; 
+    private boolean dataLoaded = false;
+    private int pageType = TYPE_FRIENDS;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -50,6 +52,17 @@ public class LiveSessionsPage extends AbstractPagerPage
 
             adapter = new LiveSessionAdapter();
             listView.setAdapter(adapter);
+
+            SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout)mainView.findViewById(R.id.swipeRefreshLayout);
+            swipeRefreshLayout.setColorSchemeResources(R.color.app_blue_dark, R.color.app_blue, R.color.app_blue_light);
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+            {
+                @Override
+                public void onRefresh()
+                {
+                    new createContent().execute(pageType);
+                }
+            });
 
             if (data != null && data.size() > 0) {
                 for (LiveSessionAdapterData sessionData: data.values()) {
@@ -84,6 +97,7 @@ public class LiveSessionsPage extends AbstractPagerPage
     
     public void loadData(final int type)
     {
+        pageType = type;
         new createContent().execute(type);
     }
     
@@ -127,6 +141,11 @@ public class LiveSessionsPage extends AbstractPagerPage
             // process response
             try {
                 JSONArray sessions = result.getJSONArray("sessions");
+
+                if (adapter != null) {
+                    disableLoadingView();
+                    adapter.reset();
+                }
                 
                 for (int i = 0; i < sessions.length(); i++) {
                     JSONObject session = sessions.getJSONObject(i);
@@ -142,9 +161,13 @@ public class LiveSessionsPage extends AbstractPagerPage
                     data.put(i, sessionData);
                     
                     if (adapter != null) {
-                        disableLoadingView();
                         adapter.add(sessionData);
                     }
+                }
+
+                if (adapter != null) {
+                    SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout)mainView.findViewById(R.id.swipeRefreshLayout);
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             } catch (Exception e) {
                 Log.e("app", "LiveSessionsPage.createContent.onPostExecute: " + e.getMessage());
