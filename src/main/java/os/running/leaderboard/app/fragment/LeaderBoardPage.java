@@ -4,6 +4,8 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,6 +19,7 @@ import os.running.leaderboard.app.R;
 import os.running.leaderboard.app.base.AbstractPagerPage;
 import os.running.leaderboard.app.base.LeaderBoardAdapter;
 import os.running.leaderboard.app.base.LeaderBoardAdapterData;
+import os.running.leaderboard.app.base.LeaderBoardPagerAdapter;
 
 /**
  * @author Martin "Garth" Zander <garth@new-crusader.de>
@@ -40,6 +43,23 @@ public class LeaderBoardPage extends AbstractPagerPage
 
             LeaderBoardAdapter adapter = new LeaderBoardAdapter();
             listView.setAdapter(adapter);
+
+            SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout)mainView.findViewById(R.id.swipeRefreshLayout);
+            swipeRefreshLayout.setColorSchemeResources(R.color.app_blue_dark, R.color.app_blue, R.color.app_blue_light);
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+            {
+                @Override
+                public void onRefresh()
+                {
+                    try {
+                        final ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
+                        LeaderBoardPagerAdapter adapter = (LeaderBoardPagerAdapter) viewPager.getAdapter();
+                        adapter.loadContent();
+                    } catch (Exception e) {
+                        ((SwipeRefreshLayout)mainView.findViewById(R.id.swipeRefreshLayout)).setRefreshing(false);
+                    }
+                }
+            });
         }
 
         if (this.contentData != null) {
@@ -109,6 +129,8 @@ public class LeaderBoardPage extends AbstractPagerPage
                 
                 adapter.add(adapterData);
             }
+
+            ((SwipeRefreshLayout)mainView.findViewById(R.id.swipeRefreshLayout)).setRefreshing(false);
             
         }  catch (Exception e) {
             Log.e("app", "LeaderBoardPage.createContent: " + e.getMessage());

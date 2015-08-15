@@ -52,6 +52,11 @@ public class LeaderBoardPagerAdapter extends AbstractPagerAdapter
         return fragment;
     }
 
+    public void loadContent()
+    {
+        new createContent().execute();
+    }
+    
     private void createContent(JSONObject result)
     {
         if (result == null) {
