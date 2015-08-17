@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 import os.running.leaderboard.app.base.Database;
 import os.running.leaderboard.app.base.Runtastic;
+import os.running.leaderboard.app.fragment.Friends;
 import os.running.leaderboard.app.fragment.LeaderBoard;
 import os.running.leaderboard.app.fragment.LiveSessions;
 
@@ -178,7 +179,7 @@ public class Main extends AppCompatActivity
                     fragmentTransaction.commit();
                     
                     return true;
-                /*case R.id.menu_friends:
+                case R.id.menu_friends:
                     
                     Friends friends = new Friends();
                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -186,7 +187,7 @@ public class Main extends AppCompatActivity
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                     
-                    return true;*/
+                    return true;
                 case R.id.menu_runtastic_apps:
 
                     Uri appUrl = Uri.parse("https://play.google.com/store/apps/dev?id=8438666261259599516");
