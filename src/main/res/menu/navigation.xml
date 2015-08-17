@@ -6,11 +6,11 @@
             android:checked="true"
             android:icon="@drawable/ic_action_leaderboard"
             android:title="@string/menu_leader_board"/>
-        <!--item
+        <item
             android:id="@+id/menu_friends"
             android:checked="false"
             android:icon="@drawable/ic_action_friends"
-            android:title="@string/menu_friends"/-->
+            android:title="@string/menu_friends"/>
         <item
             android:id="@+id/menu_sessions"
             android:checked="false"

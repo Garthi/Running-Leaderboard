@@ -26,9 +26,10 @@ public class Runtastic
     private String password = null;
 
     final private String loginUrl = "https://www.runtastic.com/en/d/users/sign_in.json";
-    final private String leaderboardUrl = "https://hubs.runtastic.com/leaderboard/v2/applications/com_runtastic_core/users/%1$d/friends_leaderboards.json";
+    final private String leaderBoardUrl = "https://hubs.runtastic.com/leaderboard/v2/applications/com_runtastic_core/users/%1$d/friends_leaderboards.json";
     final private String liveSessionUrl = "https://www.runtastic.com/en/users/%1$s/live_sessions";
     final private String friendsLiveSessionUrl = "https://www.runtastic.com/en/users/%1$s/friends_live_sessions";
+    final private String friendsListUrl = "https://www.runtastic.com/en/users/%1$s/friends";
     
     public Runtastic(Context context)
     {
@@ -75,7 +76,7 @@ public class Runtastic
         );
 
         api.setSessionCookieKey("_runtastic_session");
-        api.setUrl(String.format(leaderboardUrl, userId));
+        api.setUrl(String.format(leaderBoardUrl, userId));
         api.setMethod(api.METHOD_TYPE_GET);
         api.setParameters(parameters);
 
@@ -217,6 +218,61 @@ public class Runtastic
 
         } catch (Exception e) {
             Log.e("app", "Runtastic.friendsLiveSessions", e.fillInStackTrace());
+        }
+        
+        return new JSONObject();
+    }
+
+    public JSONObject friends()
+    {
+        Database DB = Database.getInstance(context);
+
+        String userName = DB.getAccountData("userName");
+        if (userName == null || userName.equals("")) {
+            return null;
+        }
+
+        Connection api = new Connection(context);
+
+        api.setSessionCookieKey("_runtastic_session");
+        api.setUrl(String.format(friendsListUrl, userName));
+        api.setMethod(api.METHOD_TYPE_GET);
+
+        if (!api.connect()) {
+            return null;
+        }
+        
+        try {
+            Document doc = Jsoup.parse(api.getResponse());
+
+            Elements friends = doc.getElementsByClass("friend");
+
+            if (friends.isEmpty()) {
+                return null;
+            }
+
+            JSONObject response = new JSONObject();
+            JSONArray responseFriends = new JSONArray();
+
+            for (Element friend: friends) {
+
+                JSONObject entry = new JSONObject();
+
+                Element user = friend.getElementsByClass("avatar-group").get(0).getElementsByTag("a").get(0);
+
+                entry.put("user", user.attr("title"));
+                entry.put("url", user.attr("href"));
+                entry.put("avatarUrl", friend.getElementsByClass("avatar").get(0).attr("src"));
+
+                responseFriends.put(entry);
+            }
+
+            response.put("friends", responseFriends);
+
+            return response;
+
+        } catch (Exception e) {
+            Log.e("app", "Runtastic.friends", e.fillInStackTrace());
         }
         
         return new JSONObject();
