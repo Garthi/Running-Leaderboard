@@ -35,4 +35,6 @@
 
     <string name="navigation_drawer_open">Open navigation</string>
     <string name="navigation_drawer_close">Close navigation</string>
+    <string name="friends_not_found">Invite your friends to Runtastic</string>
+    <string name="friends_not_found_title">You don't have any friends on your list</string>
 </resources>
