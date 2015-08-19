@@ -20,8 +20,8 @@ android {
         applicationId "os.running.leaderboard.app"
         minSdkVersion 9
         targetSdkVersion 22
-        versionCode 1
-        versionName "v0.1-alpha"
+        versionCode 2
+        versionName "v0.1-alpha-2"
     }
 
     compileOptions {
