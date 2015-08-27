@@ -41,7 +41,7 @@ public class LeaderBoardPage extends AbstractPagerPage
             RecyclerView.LayoutManager manager = new LinearLayoutManager(this.getActivity());
             listView.setLayoutManager(manager);
 
-            LeaderBoardAdapter adapter = new LeaderBoardAdapter();
+            LeaderBoardAdapter adapter = new LeaderBoardAdapter(this);
             listView.setAdapter(adapter);
 
             SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout)mainView.findViewById(R.id.swipeRefreshLayout);

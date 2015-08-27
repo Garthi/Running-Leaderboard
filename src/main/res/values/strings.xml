@@ -33,9 +33,10 @@
     <string name="live_sessions_no_session_title">Keine Aktivitäten verfügbar</string>
     <string name="live_sessions_no_session">Starte eine Aktivität mit LIVE Tracking und lasse dich von deinen Freunden anfeuern</string>
     
-    <!-- TODO (mpankalla) please, find a better text -->
     <string name="friends_not_found_title">Du hast keine Freunde auf deiner Liste</string>
     <string name="friends_not_found">Lade deine Freunde in Runtastic ein</string>
+    
+    <string name="activities_not_found">Dieser Benutzer hat noch keine Aktivitäten</string>
     
     <string name="navigation_drawer_open">Navigation öffnen</string>
     <string name="navigation_drawer_close">Navigation schließen</string>
