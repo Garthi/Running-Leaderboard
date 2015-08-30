@@ -30,6 +30,7 @@ public class Runtastic
     final private String liveSessionUrl = "https://www.runtastic.com/en/users/%1$s/live_sessions";
     final private String friendsLiveSessionUrl = "https://www.runtastic.com/en/users/%1$s/friends_live_sessions";
     final private String friendsListUrl = "https://www.runtastic.com/en/users/%1$s/friends";
+    final private String activitiesUrl = "https://www.runtastic.com/api/feed/profile?page=%2$d&user_id=%1$d";
     
     public Runtastic(Context context)
     {
@@ -223,6 +224,90 @@ public class Runtastic
         return new JSONObject();
     }
 
+    public JSONObject activities()
+    {
+        return activities(0);
+    }
+    
+    public JSONObject activities(int userId)
+    {
+        Database DB = Database.getInstance(context);
+
+        if (userId == 0) {
+            userId = Integer.parseInt(DB.getAccountData("userId"));
+            if (userId == 0) {
+                return null;
+            }
+        }
+        
+        Connection api = new Connection(context);
+
+        api.setSessionCookieKey("_runtastic_session");
+        api.setUrl(String.format(activitiesUrl, userId, 1));
+        api.setMethod(api.METHOD_TYPE_GET);
+
+        if (!api.connect()) {
+            return null;
+        }
+        
+        try {
+            Document doc = Jsoup.parse(api.getResponse());
+
+            Elements activities = doc.getElementsByClass("activity");
+
+            if (activities.isEmpty()) {
+                return null;
+            }
+
+            JSONObject response = new JSONObject();
+            JSONArray responseActivities = new JSONArray();
+
+            for (Element activity: activities) {
+
+                if (activity.attr("data-item_type").equals("status")) {
+                    continue;
+                }
+                
+                JSONObject entry = new JSONObject();
+
+                Element user = activity.getElementsByClass("avatar-group").get(0).getElementsByTag("a").get(0);
+
+                entry.put("user", user.attr("title"));
+                entry.put("url", user.attr("href"));
+                entry.put("avatarUrl", activity.getElementsByClass("avatar").get(0).attr("src"));
+
+                if (!activity.getElementsByClass("big_data").isEmpty()) {
+                    Element data = activity.getElementsByClass("big_data").get(0);
+
+                    if (!data.getElementsByClass("sport_type").isEmpty()) {
+                        entry.put("sport_type", data.getElementsByClass("sport_type").get(0).getElementsByTag("a").get(0).text());
+                    }
+                    if (!data.getElementsByClass("distance").isEmpty()) {
+                        entry.put("distance", data.getElementsByClass("distance").get(0).text());
+                    }
+                    if (!data.getElementsByClass("duration").isEmpty()) {
+                        entry.put("duration", data.getElementsByClass("duration").get(0).text());
+                    }
+                    if (!data.getElementsByClass("icon").isEmpty()) {
+                        // TODO get all icons
+                        entry.put("icon", data.getElementsByClass("icon").get(0).attr("title"));
+                    }
+                }
+                
+                responseActivities.put(entry);
+            }
+
+            response.put("activities", responseActivities);
+
+            return response;
+
+        } catch (Exception e) {
+            Log.e("app", "Runtastic.activities", e.fillInStackTrace());
+        }
+
+        return new JSONObject();
+    }
+    
     public JSONObject friends()
     {
         Database DB = Database.getInstance(context);
