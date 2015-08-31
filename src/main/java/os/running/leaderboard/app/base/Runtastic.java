@@ -348,6 +348,9 @@ public class Runtastic
                 entry.put("user", user.attr("title"));
                 entry.put("url", user.attr("href"));
                 entry.put("avatarUrl", friend.getElementsByClass("avatar").get(0).attr("src"));
+                
+                Element userId = friend.getElementsByClass("delete_friend_button").get(0).getElementsByTag("a").get(0);
+                entry.put("userId", userId.className().replace("remove_from_friendslist_", ""));
 
                 responseFriends.put(entry);
             }

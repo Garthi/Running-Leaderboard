@@ -139,6 +139,7 @@ public class Friends extends Fragment
                     friendsData.setUserName(session.getString("user"));
                     friendsData.setUserAvatarUrl(session.getString("avatarUrl"));
                     friendsData.setUserUrl(session.getString("url"));
+                    friendsData.setUserId(session.getInt("userId"));
 
                     adapter.add(friendsData);
                 }

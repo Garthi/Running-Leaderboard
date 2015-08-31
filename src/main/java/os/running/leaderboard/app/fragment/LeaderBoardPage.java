@@ -126,6 +126,7 @@ public class LeaderBoardPage extends AbstractPagerPage
                 adapterData.setNumber(member.getInt("entry_number"));
                 adapterData.setUserName(member.getJSONObject("member_data").getString("name"));
                 adapterData.setScore(member.getDouble("score"));
+                adapterData.setUserId(member.getInt("member"));
                 
                 adapter.add(adapterData);
             }

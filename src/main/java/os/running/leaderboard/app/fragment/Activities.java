@@ -29,7 +29,18 @@ import os.running.leaderboard.app.base.Runtastic;
 public class Activities extends Fragment
 {
     private LinearLayout mainView;
-    
+    private int userId;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+
+        if (this.getArguments() != null) {
+            userId = this.getArguments().getInt("userId");
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -101,7 +112,11 @@ public class Activities extends Fragment
                 
                 Runtastic runtastic = new Runtastic(Main.activity);
                 
-                return runtastic.activities();
+                if (userId > 0) {
+                    return runtastic.activities(userId);
+                } else {
+                    return runtastic.activities();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.e("app", "Activities.createContent " + e.getMessage());

@@ -2,6 +2,7 @@ package os.running.leaderboard.app.base;
 
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
@@ -45,7 +46,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder viewHolder, int position)
     {
         try {
-            FriendsAdapterData data = dataSet.get(position);
+            final FriendsAdapterData data = dataSet.get(position);
 
             viewHolder.layoutView.setTag(data);
 
@@ -62,6 +63,12 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
                 {
                     try {
                         Activities activities = new Activities();
+                        
+                        // add extra information
+                        Bundle extras = new Bundle();
+                        extras.putInt("userId", data.getUserId());
+                        activities.setArguments(extras);
+                        
                         FragmentTransaction fragmentTransaction = fragment.getActivity().getSupportFragmentManager().beginTransaction();
                         // TODO: add animation
                         // hide old fragment

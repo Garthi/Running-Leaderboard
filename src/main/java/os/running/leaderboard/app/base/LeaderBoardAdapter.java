@@ -3,6 +3,7 @@ package os.running.leaderboard.app.base;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
@@ -47,7 +48,7 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
     public void onBindViewHolder(ViewHolder viewHolder, int position)
     {
         try {
-            LeaderBoardAdapterData data = dataSet.get(position);
+            final LeaderBoardAdapterData data = dataSet.get(position);
 
             viewHolder.layoutView.setTag(data);
 
@@ -97,7 +98,13 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
                 {
                     try {
                         Activities activities = new Activities();
+                        
+                        // add extra information
+                        Bundle extras = new Bundle();
+                        extras.putInt("userId", data.getUserId());
                         // TODO add extras with period
+                        activities.setArguments(extras);
+                        
                         FragmentTransaction fragmentTransaction = fragment.getActivity().getSupportFragmentManager().beginTransaction();
                         // TODO: add animation
                         // hide old fragment
