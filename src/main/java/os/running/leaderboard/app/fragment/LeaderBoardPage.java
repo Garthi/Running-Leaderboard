@@ -28,6 +28,7 @@ public class LeaderBoardPage extends AbstractPagerPage
 {
     private JSONObject contentData = null;
     private Boolean emptyData = false;
+    private String tabType;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -42,6 +43,7 @@ public class LeaderBoardPage extends AbstractPagerPage
             listView.setLayoutManager(manager);
 
             LeaderBoardAdapter adapter = new LeaderBoardAdapter(this);
+            adapter.setTabType(this.tabType);
             listView.setAdapter(adapter);
 
             SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout)mainView.findViewById(R.id.swipeRefreshLayout);
@@ -69,6 +71,11 @@ public class LeaderBoardPage extends AbstractPagerPage
         }
         
         return this.mainView;
+    }
+    
+    public void setTabType(String type)
+    {
+        this.tabType = type;
     }
     
     public void setContentData(JSONObject data)

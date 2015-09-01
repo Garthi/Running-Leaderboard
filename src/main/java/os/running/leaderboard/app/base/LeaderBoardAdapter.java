@@ -28,6 +28,7 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
 {
     private List<LeaderBoardAdapterData> dataSet;
     private Fragment fragment;
+    private String tabType;
     
     public LeaderBoardAdapter(Fragment fragment)
     {
@@ -130,6 +131,11 @@ public class LeaderBoardAdapter extends RecyclerView.Adapter<LeaderBoardAdapter.
     public int getItemCount()
     {
         return dataSet.size();
+    }
+    
+    public void setTabType(String type)
+    {
+        this.tabType = type;
     }
     
     public void add(LeaderBoardAdapterData data)

@@ -49,6 +49,7 @@ public class Activities extends Fragment
 
             RecyclerView listView = (RecyclerView)mainView.findViewById(R.id.listView);
             listView.setHasFixedSize(true);
+            // TODO add load more listener
 
             RecyclerView.LayoutManager manager = new LinearLayoutManager(this.getActivity());
             listView.setLayoutManager(manager);
@@ -64,7 +65,7 @@ public class Activities extends Fragment
                 public void onRefresh()
                 {
                     try {
-                        new createContent().execute(true);
+                        new createContent().execute(false);
                     } catch (Exception e) {
                         ((SwipeRefreshLayout) mainView.findViewById(R.id.swipeRefreshLayout)).setRefreshing(false);
                     }
