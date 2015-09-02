@@ -163,6 +163,10 @@ public class Activities extends Fragment
                     activityData.setUserAvatarUrl(activity.getString("avatarUrl"));
                     activityData.setUserUrl(activity.getString("url"));
 
+                    activityData.setDate(activity.getString("date"));
+                    activityData.setSocialId(activity.getString("socialId"));
+                    activityData.setActivityId(activity.getString("activityId"));
+
                     if (activity.has("sport_type")) {
                         activityData.setSportType(activity.getString("sport_type"));
                     }
@@ -172,8 +176,13 @@ public class Activities extends Fragment
                     if (activity.has("duration")) {
                         activityData.setDuration(activity.getString("duration"));
                     }
-                    if (activity.has("icon")) {
-                        activityData.setIcon(activity.getString("icon"));
+                    if (activity.has("icons")) {
+                        for (int iconIndex = 0; iconIndex < activity.getJSONArray("icons").length(); iconIndex++) {
+                            activityData.addIcon(activity.getJSONArray("icons").getString(iconIndex));
+                        }
+                    }
+                    if (activity.has("notes")) {
+                        activityData.setNotes(activity.getString("notes"));
                     }
 
                     adapter.add(activityData);

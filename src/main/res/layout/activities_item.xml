@@ -57,5 +57,29 @@
                 android:textColor="@color/app_font_dark"
                 android:fontFamily="sans-serif-light"/>
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/icons"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/notes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textSize="14sp"
+            android:textColor="@color/app_font_dark"
+            android:fontFamily="sans-serif"/>
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/app_font"
+            android:fontFamily="sans-serif"/>
     </LinearLayout>
 </LinearLayout>

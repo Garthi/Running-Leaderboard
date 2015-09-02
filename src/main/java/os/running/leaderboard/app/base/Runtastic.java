@@ -47,7 +47,7 @@ public class Runtastic
             return null;
         }
 
-        int userId = 0;
+        int userId;
         
         userId = Integer.parseInt(DB.getAccountData("userId"));
         if (userId <= 0) {
@@ -275,6 +275,10 @@ public class Runtastic
                 entry.put("user", user.attr("title"));
                 entry.put("url", user.attr("href"));
                 entry.put("avatarUrl", activity.getElementsByClass("avatar").get(0).attr("src"));
+                
+                entry.put("date", activity.attr("data-created_at"));
+                entry.put("socialId", activity.attr("data-item_id"));
+                entry.put("activityId", activity.attr("id"));
 
                 if (!activity.getElementsByClass("big_data").isEmpty()) {
                     Element data = activity.getElementsByClass("big_data").get(0);
@@ -289,8 +293,21 @@ public class Runtastic
                         entry.put("duration", data.getElementsByClass("duration").get(0).text());
                     }
                     if (!data.getElementsByClass("icon").isEmpty()) {
-                        // TODO get all icons
-                        entry.put("icon", data.getElementsByClass("icon").get(0).attr("title"));
+                        
+                        // get all icons
+                        JSONArray icons = new JSONArray();
+                        for (Element icon: data.getElementsByClass("icon")) {
+                            icons.put(icon.className().replace("icon", "").trim());
+                        }
+                        
+                        entry.put("icons", icons);
+                    }
+                }
+                
+                if (!activity.getElementsByClass("main").isEmpty()) {
+                    Element data = activity.getElementsByClass("main").get(0);
+                    if (!data.getElementsByClass("notes").isEmpty()) {
+                        entry.put("notes", data.getElementsByClass("notes").get(0).text());
                     }
                 }
                 
@@ -460,12 +477,8 @@ public class Runtastic
         Database DB = Database.getInstance(context);
 
         String token = DB.getAccountData("token");
-        
-        if (token != null && !token.isEmpty()) {
-            return true;
-        }
-        
-        return false;
+
+        return token != null && !token.isEmpty();
     }
 
     public void logout()

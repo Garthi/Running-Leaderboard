@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
@@ -42,7 +43,7 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder viewHolder, int position)
+    public void onBindViewHolder(ViewHolder viewHolder, int position)
     {
         try {
             ActivitiesAdapterData data = dataSet.get(position);
@@ -57,6 +58,16 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.Vi
             viewHolder.imageView.setBorderColor(Color.WHITE);
             Picasso.with(viewHolder.layoutView.getContext()).load(data.getUserAvatarUrl()).placeholder(R.drawable.default_profile).into(viewHolder.imageView);
 
+            if (data.getNotes() == null || data.getNotes().equals("")) {
+                viewHolder.notesView.setVisibility(View.GONE);
+            } else {
+                viewHolder.notesView.setText(data.getNotes());
+            }
+            
+            viewHolder.dateView.setText(data.getDate());
+            
+            viewHolder.mapView.setVisibility(View.GONE);
+            
             viewHolder.layoutView.setClickable(true);
             viewHolder.layoutView.setOnClickListener(new View.OnClickListener()
             {
@@ -80,6 +91,19 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.Vi
                     }
                 }
             });
+
+            // reset icons
+            viewHolder.iconView.removeAllViews();
+            
+            // set the current icons
+            List<Integer> icons = data.getIcons();
+            if (!icons.isEmpty()) {
+                for (Integer icon: icons) {
+                    ImageView iconImageView = new ImageView(viewHolder.layoutView.getContext());
+                    iconImageView.setImageResource(icon);
+                    viewHolder.iconView.addView(iconImageView);
+                }
+            }
             
         } catch(Resources.NotFoundException e) {
             Log.e("app", "ActivitiesAdapter.onBindViewHolder" + e.getMessage());
@@ -107,10 +131,14 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder
     {
         public LinearLayout layoutView;
+        public LinearLayout iconView;
         public TextView nameView;
         public TextView typeView;
         public TextView distanceView;
         public TextView durationView;
+        public TextView notesView;
+        public TextView dateView;
+        public ImageView mapView;
         public de.hdodenhof.circleimageview.CircleImageView imageView;
         
         public ViewHolder(LinearLayout itemView)
@@ -123,7 +151,11 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.Vi
             typeView = (TextView)itemView.findViewById(R.id.type);
             distanceView = (TextView)itemView.findViewById(R.id.distance);
             durationView = (TextView)itemView.findViewById(R.id.duration);
+            notesView = (TextView)itemView.findViewById(R.id.notes);
+            dateView = (TextView)itemView.findViewById(R.id.date);
             imageView = (de.hdodenhof.circleimageview.CircleImageView)itemView.findViewById(R.id.profile_image);
+            mapView = (ImageView)itemView.findViewById(R.id.map);
+            iconView = (LinearLayout)itemView.findViewById(R.id.icons);
         }
     }
 }
