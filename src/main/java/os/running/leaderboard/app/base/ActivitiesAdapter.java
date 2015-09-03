@@ -16,8 +16,11 @@ import com.squareup.picasso.Picasso;
 import os.running.leaderboard.app.R;
 import os.running.leaderboard.app.fragment.Activities;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author Martin "Garth" Zander <garth@new-crusader.de>
@@ -52,8 +55,18 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.Vi
 
             viewHolder.nameView.setText(data.getUserName());
             viewHolder.typeView.setText(data.getSportType());
-            viewHolder.distanceView.setText(data.getDistance());
-            viewHolder.durationView.setText(data.getDuration());
+            if (data.getDistance() != null) {
+                viewHolder.distanceView.setVisibility(View.VISIBLE);
+                viewHolder.distanceView.setText(data.getDistance());
+            } else {
+                viewHolder.distanceView.setVisibility(View.GONE);
+            }
+            if (data.getDuration() != null) {
+                viewHolder.durationView.setVisibility(View.VISIBLE);
+                viewHolder.durationView.setText(data.getDuration());
+            } else {
+                viewHolder.durationView.setVisibility(View.GONE);
+            }
      
             viewHolder.imageView.setBorderColor(Color.WHITE);
             Picasso.with(viewHolder.layoutView.getContext()).load(data.getUserAvatarUrl()).placeholder(R.drawable.default_profile).into(viewHolder.imageView);
@@ -61,12 +74,27 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.Vi
             if (data.getNotes() == null || data.getNotes().equals("")) {
                 viewHolder.notesView.setVisibility(View.GONE);
             } else {
+                viewHolder.notesView.setVisibility(View.VISIBLE);
                 viewHolder.notesView.setText(data.getNotes());
             }
+
+            try {
+                viewHolder.dateView.setVisibility(View.VISIBLE);
+                // sample 2015-08-22T08:20:52Z
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss'Z'");
+                Date newDate = format.parse(data.getDate());
+
+                format = new SimpleDateFormat("dd MMM yyyy HH:mm", Locale.GERMANY);
+                String date = format.format(newDate);
+
+                viewHolder.dateView.setText(date);
+            } catch (Exception e) {
+                viewHolder.dateView.setVisibility(View.GONE);
+            }
             
-            viewHolder.dateView.setText(data.getDate());
-            
-            viewHolder.mapView.setVisibility(View.GONE);
+            if (data.getMapUrl() != null && !data.getMapUrl().equals("")) {
+                Picasso.with(viewHolder.layoutView.getContext()).load(data.getMapUrl()).into(viewHolder.mapView);
+            }
             
             viewHolder.layoutView.setClickable(true);
             viewHolder.layoutView.setOnClickListener(new View.OnClickListener()
@@ -99,7 +127,9 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.Vi
             List<Integer> icons = data.getIcons();
             if (!icons.isEmpty()) {
                 for (Integer icon: icons) {
-                    ImageView iconImageView = new ImageView(viewHolder.layoutView.getContext());
+                    ImageView iconImageView = (ImageView)LayoutInflater.from(viewHolder.layoutView.getContext()).inflate(
+                            R.layout.activities_item_icon, viewHolder.layoutView, false
+                    );
                     iconImageView.setImageResource(icon);
                     viewHolder.iconView.addView(iconImageView);
                 }

@@ -184,6 +184,9 @@ public class Activities extends Fragment
                     if (activity.has("notes")) {
                         activityData.setNotes(activity.getString("notes"));
                     }
+                    if (activity.has("mapUrl")) {
+                        activityData.setMapUrl(activity.getString("mapUrl"));
+                    }
 
                     adapter.add(activityData);
                 }

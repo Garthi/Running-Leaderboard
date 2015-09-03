@@ -19,6 +19,7 @@ public class ActivitiesAdapterData extends LiveSessionAdapterData
     private String date;
     private String socialId;
     private String activityId;
+    private String mapUrl;
 
     public List<Integer> getIcons()
     {
@@ -31,11 +32,13 @@ public class ActivitiesAdapterData extends LiveSessionAdapterData
         if (icon.equals("newsfeed-sunny")) {
             iconImage = R.drawable.ic_sunny;
         } else if (icon.equals("newsfeed-rainy")) {
-            // TODO add Weather icon
+            iconImage = R.drawable.ic_shower;
         } else if (icon.equals("newsfeed-cloudy")) {
-            // TODO add Weather icon
-            // TODO add Weather icon
-            // TODO add Weather icon
+            iconImage = R.drawable.ic_cloudy;
+        }else if (icon.equals("newsfeed-night")) {
+            iconImage = R.drawable.ic_night;
+        }else if (icon.equals("newsfeed-snowy")) {    // TODO check this on snowy weather
+            iconImage = R.drawable.ic_snow;
             
         } else if (icon.equals("newsfeed-offroad")) {
         } else if (icon.equals("newsfeed-trail")) {
@@ -135,5 +138,15 @@ public class ActivitiesAdapterData extends LiveSessionAdapterData
     public void setActivityId(String activityId)
     {
         this.activityId = activityId;
+    }
+
+    public String getMapUrl()
+    {
+        return mapUrl;
+    }
+
+    public void setMapUrl(String mapUrl)
+    {
+        this.mapUrl = mapUrl;
     }
 }

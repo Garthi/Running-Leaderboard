@@ -309,6 +309,9 @@ public class Runtastic
                     if (!data.getElementsByClass("notes").isEmpty()) {
                         entry.put("notes", data.getElementsByClass("notes").get(0).text());
                     }
+                    if (!data.getElementsByClass("map").isEmpty()) {
+                        entry.put("mapUrl", "https:" + data.getElementsByClass("map").get(0).getElementsByTag("img").get(0).attr("src"));
+                    }
                 }
                 
                 responseActivities.put(entry);
