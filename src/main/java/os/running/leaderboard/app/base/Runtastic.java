@@ -226,10 +226,15 @@ public class Runtastic
 
     public JSONObject activities()
     {
-        return activities(0);
+        return activities(0, 1);
+    }
+
+    public JSONObject activities(int userId)
+    {
+        return activities(userId, 1);
     }
     
-    public JSONObject activities(int userId)
+    public JSONObject activities(int userId, int page)
     {
         Database DB = Database.getInstance(context);
 
@@ -240,12 +245,19 @@ public class Runtastic
             }
         }
         
+        String url = String.format(activitiesUrl, userId, page);
+        
+        /*if (!lastDate.equals("")) {
+            url += "&last_activity_created_at=" + lastDate;
+        }*/
+        
+        
         Connection api = new Connection(context);
 
         api.setSessionCookieKey("_runtastic_session");
-        api.setUrl(String.format(activitiesUrl, userId, 1));
+        api.setUrl(url);
         api.setMethod(api.METHOD_TYPE_GET);
-
+        
         if (!api.connect()) {
             return null;
         }

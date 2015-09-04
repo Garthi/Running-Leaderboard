@@ -152,6 +152,11 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.Vi
         this.notifyItemInserted(dataSet.size());
     }
     
+    public ActivitiesAdapterData get(int position)
+    {
+        return dataSet.get(position);
+    }
+    
     public void reset()
     {
         dataSet.clear();

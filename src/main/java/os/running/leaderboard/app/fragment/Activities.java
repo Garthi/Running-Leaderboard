@@ -30,6 +30,8 @@ public class Activities extends Fragment
 {
     private LinearLayout mainView;
     private int userId;
+    private boolean useUpdate;
+    private int loadPage = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -49,9 +51,8 @@ public class Activities extends Fragment
 
             RecyclerView listView = (RecyclerView)mainView.findViewById(R.id.listView);
             listView.setHasFixedSize(true);
-            // TODO add load more listener
 
-            RecyclerView.LayoutManager manager = new LinearLayoutManager(this.getActivity());
+            final LinearLayoutManager manager = new LinearLayoutManager(this.getActivity());
             listView.setLayoutManager(manager);
 
             ActivitiesAdapter adapter = new ActivitiesAdapter(this);
@@ -65,6 +66,7 @@ public class Activities extends Fragment
                 public void onRefresh()
                 {
                     try {
+                        loadPage = 1;
                         new createContent().execute(false);
                     } catch (Exception e) {
                         ((SwipeRefreshLayout) mainView.findViewById(R.id.swipeRefreshLayout)).setRefreshing(false);
@@ -72,10 +74,30 @@ public class Activities extends Fragment
                 }
             });
 
-            new createContent().execute();
+            new createContent().execute(false);
+            
+            listView.addOnScrollListener(new RecyclerView.OnScrollListener()
+            {
+                private int lastVisibleItem, visibleItemCount, totalItemCount;
+                
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy)
+                {
+                    super.onScrolled(recyclerView, dx, dy);
+                    
+                    if (!useUpdate) {
+                        
+                        visibleItemCount = manager.getChildCount();
+                        totalItemCount = manager.getItemCount();
+                        lastVisibleItem = manager.findFirstVisibleItemPosition();
+                        
+                        if ((visibleItemCount + lastVisibleItem) >= totalItemCount) {
+                            new createContent().execute(true);
+                        }
+                    }
+                }
+            });
         }
-        
-        //createEmptyContent();
         
         return this.mainView;
     }
@@ -101,22 +123,39 @@ public class Activities extends Fragment
     private class createContent extends AsyncTask<Boolean, Boolean, JSONObject>
     {
         private boolean reset = true;
-        
+
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+            useUpdate = true;
+        }
+
         @Override
         protected JSONObject doInBackground(Boolean... type)
         {
             try {
                 
+                String lastDate = "";
+                
                 if (type.length > 0 && type[0]) {
                     reset = false;
+
+                    /*ActivitiesAdapter adapter = (ActivitiesAdapter)((RecyclerView)mainView.findViewById(R.id.listView)).getAdapter();
+                    ActivitiesAdapterData data = adapter.get(adapter.getItemCount() - 1);
+                    Log.d("app", "last data: " + data.getDate());
+                    
+                    lastDate = data.getDate();*/
+                    
+                    loadPage++;
                 }
                 
                 Runtastic runtastic = new Runtastic(Main.activity);
                 
                 if (userId > 0) {
-                    return runtastic.activities(userId);
+                    return runtastic.activities(userId, loadPage);
                 } else {
-                    return runtastic.activities();
+                    return runtastic.activities(0, loadPage);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -133,7 +172,15 @@ public class Activities extends Fragment
 
             if (result == null) {
                 Log.d("app", "content failed");
-                createEmptyContent();
+
+                if (reset) {
+                    createEmptyContent();
+                }
+
+                ((RecyclerView)mainView.findViewById(R.id.listView)).clearOnScrollListeners();
+
+                SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout)mainView.findViewById(R.id.swipeRefreshLayout);
+                swipeRefreshLayout.setRefreshing(false);
 
                 return;
             }
@@ -193,6 +240,8 @@ public class Activities extends Fragment
 
                 SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout)mainView.findViewById(R.id.swipeRefreshLayout);
                 swipeRefreshLayout.setRefreshing(false);
+                
+                useUpdate = false;
 
             } catch (Exception e) {
                 Log.e("app", "Activities.createContent.onPostExecute: " + e.getMessage());
