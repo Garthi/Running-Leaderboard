@@ -3,7 +3,6 @@ package os.running.leaderboard.app.base;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import os.running.leaderboard.app.R;
-import os.running.leaderboard.app.fragment.Activities;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -81,7 +79,7 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.Vi
             try {
                 viewHolder.dateView.setVisibility(View.VISIBLE);
                 // sample 2015-08-22T08:20:52Z
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss'Z'");
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
                 Date newDate = format.parse(data.getDate());
 
                 format = new SimpleDateFormat("dd MMM yyyy HH:mm", Locale.GERMANY);
@@ -94,9 +92,11 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.Vi
             
             if (data.getMapUrl() != null && !data.getMapUrl().equals("")) {
                 Picasso.with(viewHolder.layoutView.getContext()).load(data.getMapUrl()).into(viewHolder.mapView);
+            } else {
+                viewHolder.mapView.setImageResource(0);
             }
             
-            viewHolder.layoutView.setClickable(true);
+            /*viewHolder.layoutView.setClickable(false);  // TODO add open detail view
             viewHolder.layoutView.setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -118,7 +118,7 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivitiesAdapter.Vi
                         Log.e("app", "ActivitiesAdapter.onBindViewHolder.onClick: " + e.getMessage());
                     }
                 }
-            });
+            });*/
 
             // reset icons
             viewHolder.iconView.removeAllViews();
