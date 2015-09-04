@@ -41,26 +41,39 @@ public class ActivitiesAdapterData extends LiveSessionAdapterData
             iconImage = R.drawable.ic_snow;
             
         } else if (icon.equals("newsfeed-offroad")) {
+            iconImage = R.drawable.ic_offroad;
         } else if (icon.equals("newsfeed-trail")) {
+            iconImage = R.drawable.ic_trail;
         } else if (icon.equals("newsfeed-road")) {
-            // TODO add road land icon
+            iconImage = R.drawable.ic_road;
         } else if (icon.equals("newsfeed-mixed")) {
-            // TODO add mixed land icon
-            // TODO add sand land icon
+            iconImage = R.drawable.ic_mixed;
+        } else if (icon.equals("newsfeed-sand")) {
+            iconImage = R.drawable.ic_sand;
             
         } else if (icon.equals("newsfeed-awesome")) {
-            // TODO add blue icon face :-D
+            iconImage = R.drawable.ic_awesome;
         } else if (icon.equals("newsfeed-good")) {
-            // TODO add green icon face :-)
+            iconImage = R.drawable.ic_good;
         } else if (icon.equals("newsfeed-so-so")) {
-            // TODO add green icon face :-|
+            iconImage = R.drawable.ic_so_so;
         } else if (icon.equals("newsfeed-sluggish")) {
-            // TODO add yellow icon face :-(
+            iconImage = R.drawable.ic_sluggish;
         } else if (icon.equals("newsfeed-injured")) {
-            // TODO add red icon face :-(
+            iconImage = R.drawable.ic_injured;
             
         } else if (icon.equals("newsfeed-tp_small_fat_loss")) {
-            // TODO add fat loss training icon
+            iconImage = R.drawable.ic_fat_loss;
+        } else if (icon.equals("newsfeed-tp_small_beginner")) {
+            iconImage = R.drawable.ic_beginner;
+        } else if (icon.equals("newsfeed-tp_small_bikini-body-prep")) {
+            iconImage = R.drawable.ic_bikini_body;
+        } else if (icon.equals("newsfeed-tp_small_half-marathon")) {
+            iconImage = R.drawable.ic_half_marathon;
+        } else if (icon.equals("newsfeed-tp_small_marathon")) {
+            iconImage = R.drawable.ic_marathon;
+        } else if (icon.equals("newsfeed-tp_small_10k")) {
+            iconImage = R.drawable.ic_10k;
         } else {
             Log.d("app", "new icon found: " + icon);
         }

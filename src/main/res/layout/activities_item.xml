@@ -22,13 +22,27 @@
         android:layout_marginLeft="16dp"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical">
-        <TextView
-            android:id="@+id/name"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@color/app_font_dark"
-            android:fontFamily="sans-serif"/>
+            android:background="@color/app_background_grey">
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:paddingRight="16dp"
+                android:textSize="16sp"
+                android:textColor="@color/app_font_dark"
+                android:fontFamily="sans-serif"
+                android:background="@color/app_white"/>
+            <LinearLayout
+                android:id="@+id/icons"
+                android:orientation="horizontal"
+                android:layout_marginLeft="-2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
@@ -65,11 +79,6 @@
                 android:textSize="14sp"
                 android:textColor="@color/app_font_dark"
                 android:fontFamily="sans-serif-light"/>
-            <LinearLayout
-                android:id="@+id/icons"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
         </LinearLayout>
         <ImageView
             android:id="@+id/map"
