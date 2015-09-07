@@ -6,7 +6,7 @@
     <string name="menu_sessions">Live</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_runtastic">Runtastic</string>
-    <string name="menu_runtastic_apps">Runtastic Apps</string>
+    <string name="menu_runtastic_apps">Runtastic apps</string>
     <string name="menu_runtastic_url">runtastic.com</string>
 
     <string name="default_login">Guest</string>
@@ -37,4 +37,5 @@
     <string name="navigation_drawer_close">Close navigation</string>
     <string name="friends_not_found">Invite your friends to Runtastic</string>
     <string name="friends_not_found_title">You don\'t have any friends on your list</string>
+    <string name="activities_not_found">No activities found for this user</string>
 </resources>
