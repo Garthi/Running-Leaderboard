@@ -7,6 +7,11 @@
             android:icon="@drawable/ic_action_leaderboard"
             android:title="@string/menu_leader_board"/>
         <item
+            android:id="@+id/menu_pump_it"
+            android:checked="false"
+            android:icon="@drawable/ic_action_pump_it"
+            android:title="@string/menu_pump_it"/>
+        <item
             android:id="@+id/menu_friends"
             android:checked="false"
             android:icon="@drawable/ic_action_friends"

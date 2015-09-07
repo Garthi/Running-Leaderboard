@@ -2,6 +2,7 @@
     <string name="app_name">Running-Leaderboard</string>
 
     <string name="menu_leader_board">Rangliste</string>
+    <string name="menu_pump_it">Fitness Apps Statistiken</string>
     <string name="menu_friends">Freunde</string>
     <string name="menu_sessions">Live</string>
     <string name="menu_settings">Einstellungen</string>
@@ -33,9 +34,10 @@
     <string name="live_sessions_no_session_title">Keine Aktivitäten verfügbar</string>
     <string name="live_sessions_no_session">Starte eine Aktivität mit LIVE Tracking und lasse dich von deinen Freunden anfeuern</string>
     
-    <!-- TODO (mpankalla) please, find a better text -->
     <string name="friends_not_found_title">Du hast keine Freunde auf deiner Liste</string>
     <string name="friends_not_found">Lade deine Freunde in Runtastic ein</string>
+    
+    <string name="pump_it__not_load">Die Fitness Apps Statistiken konnten nicht geladen werden</string>
     
     <string name="navigation_drawer_open">Navigation öffnen</string>
     <string name="navigation_drawer_close">Navigation schließen</string>

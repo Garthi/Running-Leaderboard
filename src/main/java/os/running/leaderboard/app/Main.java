@@ -21,6 +21,7 @@ import os.running.leaderboard.app.base.Runtastic;
 import os.running.leaderboard.app.fragment.Friends;
 import os.running.leaderboard.app.fragment.LeaderBoard;
 import os.running.leaderboard.app.fragment.LiveSessions;
+import os.running.leaderboard.app.fragment.PumpIt;
 
 public class Main extends AppCompatActivity
 {
@@ -178,6 +179,15 @@ public class Main extends AppCompatActivity
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                     
+                    return true;
+                case R.id.menu_pump_it:
+
+                    PumpIt pumpIt = new PumpIt();
+                    fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.content, pumpIt);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+
                     return true;
                 case R.id.menu_friends:
                     
