@@ -8,6 +8,7 @@
     <color name="app_dark">#333</color>
     <color name="app_font_dark">#383838</color>
     <color name="app_font">#838383</color>
+    <color name="app_background_grey">#ffcccccc</color>
     <color name="app_gold">#fcc200</color>
     <color name="app_silver">#c0c0c0</color>
     <color name="app_bronze">#cd7f32</color>

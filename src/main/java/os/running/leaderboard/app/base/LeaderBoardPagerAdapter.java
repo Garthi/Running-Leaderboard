@@ -43,6 +43,16 @@ public class LeaderBoardPagerAdapter extends AbstractPagerAdapter
         
         this.fragment.put(position, fragment);
 
+        if (position == 0) {
+            fragment.setTabType(LeaderBoardAdapterData.TAB_TYPE_CURRENT_WEEK);
+        } else if (position == 1) {
+            fragment.setTabType(LeaderBoardAdapterData.TAB_TYPE_LAST_WEEK);
+        } else if (position == 2) {
+            fragment.setTabType(LeaderBoardAdapterData.TAB_TYPE_CURRENT_MONTH);
+        } else if (position == 3) {
+            fragment.setTabType(LeaderBoardAdapterData.TAB_TYPE_LAST_MONTH);
+        }
+        
         if (data != null && data.size() >= position) {
             fragment.setContentData(data.get(position));
         } else if (dataLoaded) {
@@ -86,6 +96,16 @@ public class LeaderBoardPagerAdapter extends AbstractPagerAdapter
                     LeaderBoardPage fragment = (LeaderBoardPage)this.fragment.get(i);
                     if (fragment != null) {
                         fragment.setContentData(entry);
+                        
+                        if (i == 0) {
+                            fragment.setTabType(LeaderBoardAdapterData.TAB_TYPE_CURRENT_WEEK);
+                        } else if (i == 1) {
+                            fragment.setTabType(LeaderBoardAdapterData.TAB_TYPE_LAST_WEEK);
+                        } else if (i == 2) {
+                            fragment.setTabType(LeaderBoardAdapterData.TAB_TYPE_CURRENT_MONTH);
+                        } else if (i == 3) {
+                            fragment.setTabType(LeaderBoardAdapterData.TAB_TYPE_LAST_MONTH);
+                        }
                     }
                 }
             }
