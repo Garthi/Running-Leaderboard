@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -49,6 +50,16 @@ public class LiveSessionAdapter extends RecyclerView.Adapter<LiveSessionAdapter.
             viewHolder.imageView.setBorderColor(Color.WHITE);
             Picasso.with(viewHolder.layoutView.getContext()).load(data.getUserAvatarUrl()).placeholder(R.drawable.default_profile).into(viewHolder.imageView);
 
+            viewHolder.layoutView.setClickable(true);
+            viewHolder.layoutView.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    // TODO
+                }
+            });
+            
         } catch(Resources.NotFoundException e) {
             Log.e("app", "LiveSessionAdapter.onBindViewHolder" + e.getMessage());
         }
