@@ -123,6 +123,11 @@ public class LeaderBoardPage extends AbstractPagerPage
             // reset adapter data
             adapter.reset();
 
+            if (data.getJSONArray("entries").length() == 0) {
+                createEmptyContent();
+                return;
+            }
+
             // fill adapter
             for (int i = 0; i < data.getJSONArray("entries").length(); i++) {
 
