@@ -21,6 +21,7 @@ import os.running.leaderboard.app.base.Runtastic;
 import os.running.leaderboard.app.fragment.Friends;
 import os.running.leaderboard.app.fragment.LeaderBoard;
 import os.running.leaderboard.app.fragment.LiveSessions;
+import os.running.leaderboard.app.util.Navigation;
 
 public class Main extends AppCompatActivity
 {
@@ -54,11 +55,7 @@ public class Main extends AppCompatActivity
         updateNavigationHeader();
         
         // Initializing default fragment
-        LeaderBoard fragment = new LeaderBoard();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.content, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        Navigation.from(activity).to(LeaderBoard.class.getName());
 
         FragmentManager fm = getSupportFragmentManager();
         fm.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener()
@@ -154,38 +151,24 @@ public class Main extends AppCompatActivity
 
             // Closing drawer on item click
             drawerLayout.closeDrawers();
-            
-            android.support.v4.app.FragmentTransaction fragmentTransaction;
-            
+
             // Check to see which item was being clicked and perform appropriate action
             switch (menuItem.getItemId()) {
 
                 // Replacing the main content with ContentFragment Which is our Inbox View;
                 case R.id.menu_leader_board:
 
-                    LeaderBoard leaderBoard = new LeaderBoard();
-                    fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.content, leaderBoard);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+                    Navigation.from(activity).replace(LeaderBoard.class.getName());
                     
                     return true;
                 case R.id.menu_sessions:
 
-                    LiveSessions liveSessions = new LiveSessions();
-                    fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.content, liveSessions);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+                    Navigation.from(activity).replace(LiveSessions.class.getName());
                     
                     return true;
                 case R.id.menu_friends:
-                    
-                    Friends friends = new Friends();
-                    fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.content, friends);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+
+                    Navigation.from(activity).replace(Friends.class.getName());
                     
                     return true;
                 case R.id.menu_runtastic_apps:
