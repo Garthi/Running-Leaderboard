@@ -94,8 +94,8 @@ public class Connection
             connection.addRequestProperty("Pragma", "no-cache");
             connection.addRequestProperty("Cache-Control", "no-cache");
             connection.addRequestProperty("Accept", "application/json, text/javascript, */*; q=0.01");
-            connection.addRequestProperty("X-App-Version", "3.0");
-            connection.addRequestProperty("X-App-Key", "com.runtastic.web");
+            connection.addRequestProperty("X-App-Version", "1.0");
+            connection.addRequestProperty("X-App-Key", "com.runtastic.ember");
             
             Map<String, List<String>> headers = connection.getRequestProperties();
             Log.d("app", "headers" + headers.toString());
