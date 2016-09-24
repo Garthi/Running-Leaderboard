@@ -1,12 +1,15 @@
 buildscript {
     repositories {
         jcenter()
+        maven { url 'https://www.testfairy.com/maven' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.1.1'
+        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.testfairy.plugins.gradle:testfairy:1.12'
     }
 }
 apply plugin: 'com.android.application'
+apply plugin: 'testfairy'
 
 repositories {
     jcenter()
@@ -14,8 +17,13 @@ repositories {
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "20.0.0"
-
+    buildToolsVersion "21.1.2"
+    
+    testfairyConfig {
+        // create on the main gradle build: subprojects { ext.testFairyKey = "12345678sampleKey"; }
+        apiKey testFairyKey
+    }
+    
     defaultConfig {
         applicationId "os.running.leaderboard.app"
         minSdkVersion 9
@@ -34,6 +42,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    return 1
 }
 
 dependencies {
