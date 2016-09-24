@@ -29,7 +29,7 @@ public class Runtastic
     final private String leaderBoardUrl = "https://hubs.runtastic.com/leaderboard/v2/applications/com_runtastic_core/users/%1$d/friends_leaderboards.json";
     final private String liveSessionUrl = "https://www.runtastic.com/en/users/%1$s/live_sessions";
     final private String friendsLiveSessionUrl = "https://www.runtastic.com/en/users/%1$s/friends_live_sessions";
-    final private String friendsListUrl = "https://hubs.runtastic.com/social/v1/users/16217195/friendships?filter[unscoped]=false&filter[status]=accepted&page[number]=1&page[size]=51&userIdForUrl=16217195";
+    final private String friendsListUrl = "https://hubs.runtastic.com/social/v1/users/%1$s/friendships?filter[unscoped]=false&filter[status]=accepted&page[number]=1&page[size]=51&userIdForUrl=%1$s";
     
     public Runtastic(Context context)
     {
@@ -227,15 +227,15 @@ public class Runtastic
     {
         Database DB = Database.getInstance(context);
 
-        String userName = DB.getAccountData("userId");
-        if (userName == null || userName.equals("")) {
+        String userId = DB.getAccountData("userId");
+        if (userId == null || userId.equals("")) {
             return new JSONObject();
         }
 
         Connection api = new Connection(context);
 
         api.setSessionCookieKey("_runtastic_session");
-        api.setUrl(String.format(friendsListUrl, userName));
+        api.setUrl(String.format(friendsListUrl, userId));
         api.setMethod(api.METHOD_TYPE_GET);
 
         if (!api.connect()) {
