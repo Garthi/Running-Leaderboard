@@ -28,6 +28,7 @@ public class LeaderBoardPage extends AbstractPagerPage
 {
     private JSONObject contentData = null;
     private Boolean emptyData = false;
+    private String tabType;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -41,7 +42,8 @@ public class LeaderBoardPage extends AbstractPagerPage
             RecyclerView.LayoutManager manager = new LinearLayoutManager(this.getActivity());
             listView.setLayoutManager(manager);
 
-            LeaderBoardAdapter adapter = new LeaderBoardAdapter();
+            LeaderBoardAdapter adapter = new LeaderBoardAdapter(this);
+            adapter.setTabType(this.tabType);
             listView.setAdapter(adapter);
 
             SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout)mainView.findViewById(R.id.swipeRefreshLayout);
@@ -69,6 +71,11 @@ public class LeaderBoardPage extends AbstractPagerPage
         }
         
         return this.mainView;
+    }
+    
+    public void setTabType(String type)
+    {
+        this.tabType = type;
     }
     
     public void setContentData(JSONObject data)
@@ -116,6 +123,11 @@ public class LeaderBoardPage extends AbstractPagerPage
             // reset adapter data
             adapter.reset();
 
+            if (data.getJSONArray("entries").length() == 0) {
+                createEmptyContent();
+                return;
+            }
+
             // fill adapter
             for (int i = 0; i < data.getJSONArray("entries").length(); i++) {
 
@@ -126,6 +138,7 @@ public class LeaderBoardPage extends AbstractPagerPage
                 adapterData.setNumber(member.getInt("entry_number"));
                 adapterData.setUserName(member.getJSONObject("member_data").getString("name"));
                 adapterData.setScore(member.getDouble("score"));
+                adapterData.setUserId(member.getInt("member"));
                 
                 adapter.add(adapterData);
             }

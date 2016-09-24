@@ -8,6 +8,7 @@ public class LiveSessionAdapterData
     private String userName;
     private String userAvatarUrl;
     private String userUrl;
+    private int userId;
     private String text;
     private String userSessionUrl;
 
@@ -59,5 +60,15 @@ public class LiveSessionAdapterData
     public void setText(String text)
     {
         this.text = text;
+    }
+
+    public int getUserId()
+    {
+        return userId;
+    }
+
+    public void setUserId(int userId)
+    {
+        this.userId = userId;
     }
 }

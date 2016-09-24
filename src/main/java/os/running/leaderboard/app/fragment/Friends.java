@@ -45,7 +45,7 @@ public class Friends extends Fragment
             RecyclerView.LayoutManager manager = new LinearLayoutManager(this.getActivity());
             listView.setLayoutManager(manager);
 
-            FriendsAdapter adapter = new FriendsAdapter();
+            FriendsAdapter adapter = new FriendsAdapter(this);
             listView.setAdapter(adapter);
 
             SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout)mainView.findViewById(R.id.swipeRefreshLayout);
@@ -139,6 +139,7 @@ public class Friends extends Fragment
                     friendsData.setUserName(session.getString("user"));
                     friendsData.setUserAvatarUrl(session.getString("avatarUrl"));
                     friendsData.setUserUrl(session.getString("url"));
+                    friendsData.setUserId(session.getInt("userId"));
 
                     adapter.add(friendsData);
                 }

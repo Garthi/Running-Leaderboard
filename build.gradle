@@ -18,12 +18,12 @@ repositories {
 android {
     compileSdkVersion 22
     buildToolsVersion "21.1.2"
-    
+
     testfairyConfig {
         // create on the main gradle build: subprojects { ext.testFairyKey = "12345678sampleKey"; }
         apiKey testFairyKey
     }
-    
+
     defaultConfig {
         applicationId "os.running.leaderboard.app"
         minSdkVersion 9

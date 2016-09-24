@@ -13,6 +13,11 @@ public class LeaderBoardAdapterData
     private double score;
     private int userId;
 
+    public static final String TAB_TYPE_CURRENT_WEEK = "current_week";
+    public static final String TAB_TYPE_LAST_WEEK = "last_week";
+    public static final String TAB_TYPE_CURRENT_MONTH = "current_month";
+    public static final String TAB_TYPE_LAST_MONTH = "last_month";
+
     public int getNumber()
     {
         return number;
