@@ -5,13 +5,15 @@ import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
-import os.running.leaderboard.app.R;
-import os.running.leaderboard.app.fragment.LeaderBoardPage;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import os.running.leaderboard.app.R;
+import os.running.leaderboard.app.fragment.LeaderBoardPage;
 
 /**
  * @author Martin "Garth" Zander <garth@new-crusader.de>

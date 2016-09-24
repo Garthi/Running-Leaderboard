@@ -1,10 +1,11 @@
 package os.running.leaderboard.app.base;
 
 import android.util.Log;
-import os.running.leaderboard.app.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import os.running.leaderboard.app.R;
 
 /**
  * @author Martin "Garth" Zander <garth@new-crusader.de>

@@ -12,12 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.squareup.picasso.Picasso;
-import os.running.leaderboard.app.R;
-import os.running.leaderboard.app.fragment.Activities;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import os.running.leaderboard.app.R;
+import os.running.leaderboard.app.fragment.Activities;
 
 /**
  * @author Martin "Garth" Zander <garth@new-crusader.de>

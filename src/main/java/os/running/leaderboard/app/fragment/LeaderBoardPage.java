@@ -14,7 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
 import org.json.JSONObject;
+
 import os.running.leaderboard.app.R;
 import os.running.leaderboard.app.base.AbstractPagerPage;
 import os.running.leaderboard.app.base.LeaderBoardAdapter;

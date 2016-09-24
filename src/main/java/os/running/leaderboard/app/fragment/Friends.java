@@ -15,8 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import os.running.leaderboard.app.Main;
 import os.running.leaderboard.app.R;
 import os.running.leaderboard.app.base.FriendsAdapter;
