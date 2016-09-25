@@ -14,17 +14,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
-import os.running.leaderboard.app.Main;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import os.running.leaderboard.app.R;
 import os.running.leaderboard.app.base.AbstractPagerPage;
 import os.running.leaderboard.app.base.LiveSessionAdapter;
 import os.running.leaderboard.app.base.LiveSessionAdapterData;
 import os.running.leaderboard.app.base.Runtastic;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Martin "Garth" Zander <garth@new-crusader.de>
@@ -109,7 +110,7 @@ public class LiveSessionsPage extends AbstractPagerPage
         protected String doInBackground(Integer... type)
         {
             try {
-                Runtastic runtastic = new Runtastic(Main.activity);
+                Runtastic runtastic = new Runtastic(LiveSessionsPage.this.getActivity());
                 if (type[0] == TYPE_WORLD) {
                     result = runtastic.liveSessions();
                 } else {

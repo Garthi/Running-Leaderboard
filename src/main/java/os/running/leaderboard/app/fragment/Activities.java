@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import os.running.leaderboard.app.Main;
 import os.running.leaderboard.app.R;
 import os.running.leaderboard.app.base.ActivitiesAdapter;
 import os.running.leaderboard.app.base.ActivitiesAdapterData;
@@ -152,7 +151,7 @@ public class Activities extends Fragment
                     loadPage++;
                 }
                 
-                Runtastic runtastic = new Runtastic(Main.activity);
+                Runtastic runtastic = new Runtastic(Activities.this.getActivity());
                 
                 if (userId > 0) {
                     return runtastic.activities(userId, loadPage);

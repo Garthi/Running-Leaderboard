@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import os.running.leaderboard.app.Main;
 import os.running.leaderboard.app.R;
 import os.running.leaderboard.app.base.FriendsAdapter;
 import os.running.leaderboard.app.base.FriendsAdapterData;
@@ -97,7 +96,7 @@ public class Friends extends Fragment
         protected String doInBackground(Integer... type)
         {
             try {
-                Runtastic runtastic = new Runtastic(Main.activity);
+                Runtastic runtastic = new Runtastic(Friends.this.getActivity());
                 result = runtastic.friends();
             } catch (Exception e) {
                 e.printStackTrace();

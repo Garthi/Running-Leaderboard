@@ -4,17 +4,18 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import os.running.leaderboard.app.base.Runtastic;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import os.running.leaderboard.app.base.Runtastic;
+import os.running.leaderboard.app.main.presenter.MainPresenter;
 
 /**
  * @author Martin "Garth" Zander <garth@new-crusader.de>
@@ -130,7 +131,8 @@ public class Login extends AppCompatActivity
             
             // remove login screen
             Log.d("app", "end login");
-            Snackbar.make(Main.activity.findViewById(R.id.drawer_layout), R.string.login_success, Snackbar.LENGTH_LONG).show();
+            MainPresenter mainPresenter = MainPresenter.getInstance();
+            mainPresenter.createMessage(R.string.login_success);
             
             Intent intent = new Intent();
             setResult(RESULT_OK, intent);
