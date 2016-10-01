@@ -19,11 +19,12 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import os.running.leaderboard.app.R;
+import os.running.leaderboard.app.base.view.BaseView;
 import os.running.leaderboard.app.fragment.LeaderBoard;
 import os.running.leaderboard.app.main.presenter.MainPresenter;
 import os.running.leaderboard.app.util.Navigation;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity implements BaseView
 {
     private MainPresenter presenter;
 
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity
 
         // create presenter
         presenter = MainPresenter.getInstance();
-        presenter.onTakeView(this);
+        presenter.onStart(this);
 
         // init view
         initToolBar();
@@ -59,14 +60,14 @@ public class MainActivity extends AppCompatActivity
     protected void onStart()
     {
         super.onStart();
-        presenter.onTakeView(this);
+        presenter.onStart(this);
     }
 
     @Override
     protected void onStop()
     {
+        presenter.onStop();
         super.onStop();
-        presenter.onTakeView(null);
     }
 
     @Override

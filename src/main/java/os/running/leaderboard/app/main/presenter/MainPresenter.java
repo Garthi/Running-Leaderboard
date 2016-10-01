@@ -10,6 +10,8 @@ import os.running.leaderboard.app.Login;
 import os.running.leaderboard.app.R;
 import os.running.leaderboard.app.base.Database;
 import os.running.leaderboard.app.base.Runtastic;
+import os.running.leaderboard.app.base.presenter.BasePresenter;
+import os.running.leaderboard.app.base.view.BaseView;
 import os.running.leaderboard.app.fragment.Friends;
 import os.running.leaderboard.app.fragment.LeaderBoard;
 import os.running.leaderboard.app.fragment.LiveSessions;
@@ -20,7 +22,7 @@ import os.running.leaderboard.app.util.Navigation;
  * presenter of main activity
  * Created by garth_000 on 25.09.2016.
  */
-public class MainPresenter
+public class MainPresenter implements BasePresenter
 {
     private static MainPresenter instance;
 
@@ -38,10 +40,17 @@ public class MainPresenter
         return instance;
     }
 
-    public void onTakeView(MainActivity view)
+    @Override
+    public void onStart(BaseView view)
     {
-        this.view = view;
+        this.view = (MainActivity)view;
         updateLogin();
+    }
+
+    @Override
+    public void onStop()
+    {
+        this.view = null;
     }
 
     public void onBackStackChanged()
