@@ -12,9 +12,9 @@ import os.running.leaderboard.app.base.Database;
 import os.running.leaderboard.app.base.Runtastic;
 import os.running.leaderboard.app.base.presenter.BasePresenter;
 import os.running.leaderboard.app.base.view.BaseView;
-import os.running.leaderboard.app.fragment.Friends;
 import os.running.leaderboard.app.fragment.LeaderBoard;
 import os.running.leaderboard.app.fragment.LiveSessions;
+import os.running.leaderboard.app.friends.view.FriendsFragment;
 import os.running.leaderboard.app.main.view.MainActivity;
 import os.running.leaderboard.app.util.Navigation;
 
@@ -44,7 +44,7 @@ public class MainPresenter implements BasePresenter
     public void onStart(BaseView view)
     {
         this.view = (MainActivity)view;
-        updateLogin();
+        updateUi();
     }
 
     @Override
@@ -86,11 +86,11 @@ public class MainPresenter implements BasePresenter
         // TODO: add the data on local in presenter
 
         if (requestCode == 1) {
-            updateLogin();
+            updateUi();
         }
     }
 
-    private void updateLogin()
+    private void updateUi()
     {
         if (this.view == null) {
             return;
@@ -147,7 +147,7 @@ public class MainPresenter implements BasePresenter
             case R.id.menu_friends:
 
                 // TODO add a back stack reset
-                Navigation.from(this.view).replace(Friends.class.getName());
+                Navigation.from(this.view).replace(FriendsFragment.class.getName());
 
                 break;
             case R.id.menu_runtastic_apps:
